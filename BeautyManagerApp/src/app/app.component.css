@@ -1,0 +1,19 @@
+#app {
+  height: 100vh;
+}
+
+.navbar {
+  background-color:rgba(0, 0, 0, 0.8);
+}
+
+.img-thumbnails {
+  width: 200px;
+  border-radius: 15%;
+  opacity: 0.9;
+}
+
+a.active {
+  border: white 1px solid;
+  border-radius: 20px;
+  opacity: 1;
+}

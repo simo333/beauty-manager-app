@@ -102,5 +102,8 @@
       }
     }
   },
-  "defaultProject": "BeautyManagerApp"
+  "defaultProject": "BeautyManagerApp",
+  "cli": {
+    "analytics": false
+  }
 }

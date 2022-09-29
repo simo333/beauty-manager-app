@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {AuthService} from "./_services/auth.service";
 import {StorageService} from "./_services/storage.service";
+import {Subscription} from "rxjs";
+import {EventBusService} from "./_shared/EventBusService";
 
 @Component({
   selector: 'app-root',
@@ -8,13 +10,17 @@ import {StorageService} from "./_services/storage.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'BeautyManagerApp';
+  title = 'Beauty & SPA';
   private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
   email?: string;
 
-  constructor(private storageService: StorageService, private authService: AuthService) { }
+  eventBusSub?: Subscription;
+
+  constructor(private storageService: StorageService,
+              private authService: AuthService,
+              private eventBusService: EventBusService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
@@ -26,6 +32,10 @@ export class AppComponent {
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.email = user.email;
     }
+
+    this.eventBusSub = this.eventBusService.on('logout', () => {
+      this.logout();
+    });
   }
 
   public logout(): void {

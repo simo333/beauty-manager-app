@@ -13,6 +13,10 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 
 import {httpInterceptorProviders} from './_helpers/http.interceptor';
+import {MatSliderModule} from "@angular/material/slider";
+import { AboutComponent } from './about/about.component';
+import { TreatmentsComponent } from './treatments/treatments.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,13 +26,17 @@ import {httpInterceptorProviders} from './_helpers/http.interceptor';
     HomeComponent,
     ProfileComponent,
     BoardAdminComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    AboutComponent,
+    TreatmentsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSliderModule,
+    NgbModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
