@@ -34,7 +34,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         if (
           error instanceof HttpErrorResponse &&
           !req.url.includes('auth/login') &&
-          error.status === 401
+          (error.status === 401 || error.status === 403)
         ) {
           return this.handle401Error(req, next);
         }
