@@ -1,0 +1,62 @@
+<div class="e-panel card">
+  <a href="/klienci" routerLink="/admin/klienci">
+    <button class="btn btn-outline-secondary m-2">
+      <i class="fs-6 bi-arrow-left-square-fill"></i>
+      <span class="px-3 h6">Powrót do listy</span>
+    </button>
+  </a>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-3">
+        <div class="card">
+          <div class="card-title bg-dark text-white p-2">
+            <h2>Dane Klienta</h2>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Imię</p>
+              </div>
+              <div class="col-sm-9 text-center">
+                <p class="text-muted mb-0">{{client.firstName}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Nazwisko</p>
+              </div>
+              <div class="col-sm-9 text-center">
+                <p class="text-muted mb-0">{{client.lastName}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Numer telefonu</p>
+              </div>
+              <div class="col-sm-9 text-center">
+                <p class="text-muted mb-0">{{client.phoneNumber}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+                <p class="mb-0 bg-danger">Przejdź do danych użytkownika</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-title bg-dark text-white p-2">
+            <h2>Wizyty</h2>
+          </div>
+          <div class="card-body">
+              -- WIZYTY--
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

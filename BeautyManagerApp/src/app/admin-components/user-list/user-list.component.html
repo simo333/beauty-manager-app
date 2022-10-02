@@ -1,0 +1,206 @@
+<div class="e-panel card">
+  <div class="card-body">
+    <div class="e-table">
+      <div class="table-responsive table-lg mt-3">
+        <table class="table table-hover caption-top mb-5">
+          <caption><h2>Lista użytkowników</h2></caption>
+          <thead class="table-dark">
+          <tr>
+            <th class="max-width">Email</th>
+            <th>Rodzaj konta</th>
+            <th>Imię i nazwisko</th>
+            <th class="col-2">Akcje</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="
+                      let user of users | paginate: {
+                                              itemsPerPage: pageSize,
+                                              currentPage: page,
+                                              totalItems: count }">
+            <td class="text-nowrap align-middle">{{user.email}}</td>
+            <td class="text-nowrap align-middle">{{rolesNames(user)}}</td>
+            <td class="text-nowrap align-middle">{{user.client.fullName}}</td>
+            <td class="text-center align-middle">
+              <div class="btn-group align-top">
+                <button class="btn btn-sm btn-secondary text-white"
+                        type="button"
+                        (click)="routeToUserDetails(user.id)">
+                  <i class="bi bi-search"></i> Szczegóły
+                </button>
+
+                <button class="btn btn-sm btn-primary bg-blue text-white mx-1"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#edit-form-modal"
+                        (click)="setActualUserId(user.id)"
+                        >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+<!--                <button class="btn btn-danger btn-sm text-white" mwlConfirmationPopover-->
+<!--                        [popoverMessage]="popoverTitle"-->
+<!--                        placement="left-top"-->
+<!--                        (confirm)="deleteUserById(user.id)"-->
+<!--                        (cancel)="cancelClicked=true"-->
+<!--                        confirmText="Usuń"-->
+<!--                        cancelText="Anuluj"-->
+<!--                >-->
+<!--                  <i class="bi bi-trash3-fill"></i>-->
+<!--                </button>-->
+              </div>
+            </td>
+          </tr>
+          </tbody>
+          <br>
+        </table>
+      </div>
+      <div class="text-center">
+        <pagination-controls
+          previousLabel=""
+          nextLabel=""
+          [responsive]="true"
+          (pageChange)="handlePageChange($event)"
+          [directionLinks]="true"
+        >
+        </pagination-controls>
+      </div>
+      <div class="mt-3">
+        <h5>Pozycji na stronie:
+          <select (change)="handlePageSizeChange($event)">
+            <option *ngFor="let size of pageSizes" [ngValue]="size">
+              {{ size }}
+            </option>
+          </select>
+        </h5>
+      </div>
+
+      <!-- Edit Form Modal -->
+      <div class="modal fade" role="dialog" tabindex="-1" id="edit-form-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edytuj dane użytkownika</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" #closeEditModalButton>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex bg-warning text-white justify-content-center align-items-baseline mx-5 rounded">
+                <i class="fs-2 bi-exclamation-triangle-fill pe-2"></i>
+                <p class="fw-bold">Puste pola pozostaną zmian.</p>
+              </div>
+              <div class="py-1">
+                <form
+                  name="form"
+                  (ngSubmit)="f.form.valid && patchUser()"
+                  #f="ngForm"
+                  novalidate
+                >
+                  <div class="form-group my-1">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      id="email"
+                      placeholder="Pole pozostanie bez zmian"
+                      [(ngModel)]="user.email"
+                      email
+                      #email="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+                    />
+                    <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                      <div *ngIf="email.errors['email']">
+                        Email jest niepoprawny.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group my-1">
+                    <label for="password">Hasło</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      id="password"
+                      placeholder="Pole pozostanie bez zmian"
+                      [(ngModel)]="user.password"
+                      minlength="8"
+                      maxlength="120"
+                      #password="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+                    />
+                    <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                      <div *ngIf="password.errors['minlength']">Hasło musi składać się z conajmniej 8 znaków.</div>
+                      <div *ngIf="password.errors['maxlength']">Hasło musi składać się z maksymalnie 120 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="form-group my-1">
+                    <label for="firstName">Imię</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="firstName"
+                      id="firstName"
+                      placeholder="Pole pozostanie bez zmian"
+                      [(ngModel)]="user.client.firstName"
+                      minlength="2"
+                      maxlength="100"
+                      #firstName="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && firstName.errors }"
+                    />
+                    <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+                      <div *ngIf="firstName.errors['minlength']">Imię musi składać się z conajmniej 2 znaków.</div>
+                      <div *ngIf="firstName.errors['maxlength']">Imię musi składać się z maksymalnie 100 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="form-group my-1">
+                    <label for="lastName">Nazwisko</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="lastName"
+                      id="lastName"
+                      placeholder="Pole pozostanie bez zmian"
+                      [(ngModel)]="user.client.lastName"
+                      minlength="2"
+                      maxlength="150"
+                      #lastName="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && lastName.errors }"
+                    />
+                    <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+                      <div *ngIf="lastName.errors['minlength']">Nazwisko musi składać się z conajmniej 2 znaków.</div>
+                      <div *ngIf="lastName.errors['maxlength']">Nazwisko musi składać się z maksymalnie 150 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="form-group my-1">
+                    <label for="phoneNumber">Numer telefonu</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="phoneNumber"
+                      id="phoneNumber"
+                      placeholder="Pole pozostanie bez zmian"
+                      [(ngModel)]="user.client.phoneNumber"
+                      pattern="^\+\d{11}$"
+                      #phoneNumber="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }"
+                    />
+                    <div class="invalid-feedback" *ngIf="phoneNumber.errors && f.submitted">
+                      <div *ngIf="phoneNumber.errors['pattern']">Numer telefonu musi składać się ze znaku '+' i 11 cyfr.</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex justify-content-end">
+                      <button type="submit" class="btn btn-primary">Gotowe</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
