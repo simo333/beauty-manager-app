@@ -1,33 +1,47 @@
-<div class="row flex-nowrap">
-  <div class="col col-2 px-sm-2 px-0 bg-dark">
-    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2">
-      <div class="w-100 text-center bg-dark py-2 rounded">
-        <span class="text-white h3">Menu</span>
-        <hr class="border-white">
+<div class="d-flex justify-content-center" *ngIf="!isAdmin">
+  <div class="card col-3 text-center p-3 m-5 border-danger bg-light">
+    <div class="card-title">
+      <h1 class="text-danger">Brak dostępu</h1>
+    </div>
+    <div class="card-body">
+      <h3>Nie masz dostępu do tej treści.</h3>
+      <h4 class="text-decoration-underline">Zaloguj się, aby kontynuować.</h4>
+    </div>
+  </div>
+</div>
+
+<div class="row flex-nowrap" *ngIf="isAdmin">
+  <div class="col col-2 px-sm-2 px-0">
+    <div class="col bg-dark pb-5 rounded mt-2">
+      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2">
+        <div class="w-100 text-center bg-dark py-2 rounded">
+          <span class="text-white h3">Menu</span>
+          <hr class="border-white">
+        </div>
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start sidebar" id="menu">
+          <li class="nav-item">
+            <a routerLink="klienci" class="nav-link align-middle px-0">
+              <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Klienci</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="uzytkownicy" class="nav-link px-0 align-middle">
+              <i class="fs-4 bi-person-square"></i> <span class="ms-1 d-none d-sm-inline">Użytkownicy</span></a>
+          </li>
+          <li>
+            <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+              <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
+          </li>
+          <li>
+            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+              <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-0 align-middle">
+              <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+          </li>
+        </ul>
       </div>
-      <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start sidebar" id="menu">
-        <li class="nav-item">
-          <a href="/klienci" routerLink="/admin/klienci" class="nav-link align-middle px-0">
-            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Klienci</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link px-0 align-middle">
-            <i class="fs-4 bi-person-square"></i> <span class="ms-1 d-none d-sm-inline">Użytkownicy</span></a>
-        </li>
-        <li>
-          <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
-        </li>
-        <li>
-          <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link px-0 align-middle">
-            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
-        </li>
-      </ul>
     </div>
   </div>
   <div class="col-10 py-3">
