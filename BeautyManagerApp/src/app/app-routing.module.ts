@@ -10,19 +10,24 @@ import {AboutComponent} from "./about/about.component";
 import {TreatmentsComponent} from "./treatments/treatments.component";
 import {ClientListComponent} from "./admin-components/client-list/client-list.component";
 import {ClientDetailsComponent} from "./admin-components/client-details/client-details.component";
+import {UserListComponent} from "./admin-components/user-list/user-list.component";
+
+const appTitle = 'Beauty & SPA';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'zaloguj', component: LoginComponent},
-  {path: 'zarejestruj', component: RegisterComponent},
-  {path: 'profil', component: ProfileComponent},
-  {path: 'user', component: BoardUserComponent},
-  {path: 'admin', component: BoardAdminComponent, children: [
-    {path: 'klienci', title: 'Klienci', component: ClientListComponent},
-    {path: 'klient/:id', component: ClientDetailsComponent}
+  {path: 'home', title: `${appTitle}`, component: HomeComponent},
+  {path: 'zaloguj', title: `Logowanie - ${appTitle}`, component: LoginComponent},
+  {path: 'zarejestruj', title: `Rejestracja - ${appTitle}`, component: RegisterComponent},
+  {path: 'profil', title: `Profil - ${appTitle}`, component: ProfileComponent},
+  {path: 'user', title: `Panel użytkownika - ${appTitle}`, component: BoardUserComponent},
+  {path: 'admin', title: `Panel admina - ${appTitle}`, component: BoardAdminComponent, children: [
+    {path: 'klienci', title: `Klienci - ${appTitle}`, component: ClientListComponent},
+    {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
+    {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},
+    {path: 'uzytkownik/:id', title: `Użytkownik - ${appTitle}`, component: ClientDetailsComponent} //TODO CHANGE COMPONENT
       ]},
-  {path: 'o-nas', component: AboutComponent},
-  {path: 'zabiegi', component: TreatmentsComponent},
+  {path: 'o-nas', title: `O nas - ${appTitle}`, component: AboutComponent},
+  {path: 'zabiegi', title: `Zabiegi - ${appTitle}`,  component: TreatmentsComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 

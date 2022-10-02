@@ -27,6 +27,10 @@ export class UserService {
     return this.http.put<User>(baseUrl + `/${user.id}`, user);
   }
 
+  public patch(user: User): Observable<User> {
+    return this.http.patch<User>(baseUrl + `/${user.id}`, user);
+  }
+
   //TODO change password / phone for USER_ROLE
 
   public delete(userId: number): Observable<void> {

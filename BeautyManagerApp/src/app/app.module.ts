@@ -21,6 +21,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationPopoverModule} from "angular-confirmation-popover";
 import { ClientListComponent } from './admin-components/client-list/client-list.component';
 import { ClientDetailsComponent } from './admin-components/client-details/client-details.component';
+import { UserListComponent } from './admin-components/user-list/user-list.component';
+import {UserService} from "./_services/users/user.service";
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { ClientDetailsComponent } from './admin-components/client-details/client
     TreatmentsComponent,
     ClientListComponent,
     ClientDetailsComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { ClientDetailsComponent } from './admin-components/client-details/client
   ],
   providers: [
     httpInterceptorProviders,
-    ClientService
+    ClientService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
