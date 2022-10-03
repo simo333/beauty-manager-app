@@ -59,6 +59,10 @@ export class ClientListComponent implements OnInit {
     return this.client;
   }
 
+  renewClient() {
+    this.client = new Client();
+  }
+
   createClient() {
     this.clientService.save(this.client).subscribe(response => {
       console.log(response);
@@ -77,7 +81,6 @@ export class ClientListComponent implements OnInit {
 
   deleteClientById(id: number) {
     this.clientService.delete(id).subscribe();
-    this.closeDMButton.nativeElement.click();
     this.reload();
   }
 

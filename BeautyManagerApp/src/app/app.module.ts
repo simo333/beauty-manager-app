@@ -23,6 +23,8 @@ import { ClientListComponent } from './admin-components/client-list/client-list.
 import { ClientDetailsComponent } from './admin-components/client-details/client-details.component';
 import { UserListComponent } from './admin-components/user-list/user-list.component';
 import {UserService} from "./_services/users/user.service";
+import { TreatmentsPanelComponent } from './admin-components/treatments-panel/treatments-panel.component';
+import {TreatmentCategoryService} from "./_services/treatment-category/TreatmentCategory.service";
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import {UserService} from "./_services/users/user.service";
     ClientListComponent,
     ClientDetailsComponent,
     UserListComponent,
+    TreatmentsPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ import {UserService} from "./_services/users/user.service";
   providers: [
     httpInterceptorProviders,
     ClientService,
-    UserService
+    UserService,
+    TreatmentCategoryService
   ],
   bootstrap: [AppComponent]
 })
