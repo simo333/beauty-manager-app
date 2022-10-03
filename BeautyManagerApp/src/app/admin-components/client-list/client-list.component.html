@@ -5,7 +5,7 @@
         <table class="table table-hover caption-top mb-5">
           <caption><h2>Lista klientów</h2>
             <button class="btn btn-success" type="button" data-bs-toggle="modal"
-                    data-bs-target="#create-form-modal">
+                    data-bs-target="#create-form-modal" (click)="renewClient()">
               <i class="fs-5 bi-person-plus-fill"></i> <span class="h5 px-2">Dodaj klienta</span>
             </button>
           </caption>
@@ -196,6 +196,7 @@
                   novalidate
                 >
                   <div class="form-group my-1">
+                    <label for="lastName">Imię</label>
                     <input
                       type="text"
                       class="form-control"

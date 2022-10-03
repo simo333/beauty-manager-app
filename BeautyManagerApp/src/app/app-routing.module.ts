@@ -11,6 +11,7 @@ import {TreatmentsComponent} from "./treatments/treatments.component";
 import {ClientListComponent} from "./admin-components/client-list/client-list.component";
 import {ClientDetailsComponent} from "./admin-components/client-details/client-details.component";
 import {UserListComponent} from "./admin-components/user-list/user-list.component";
+import {TreatmentsPanelComponent} from "./admin-components/treatments-panel/treatments-panel.component";
 
 const appTitle = 'Beauty & SPA';
 
@@ -24,7 +25,8 @@ const routes: Routes = [
     {path: 'klienci', title: `Klienci - ${appTitle}`, component: ClientListComponent},
     {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
     {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},
-    {path: 'uzytkownik/:id', title: `Użytkownik - ${appTitle}`, component: ClientDetailsComponent} //TODO CHANGE COMPONENT
+    {path: 'uzytkownik/:id', title: `Użytkownik - ${appTitle}`, component: ClientDetailsComponent}, //TODO CHANGE COMPONENT OR RESIGN USER DETAILS
+    {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsPanelComponent}
       ]},
   {path: 'o-nas', title: `O nas - ${appTitle}`, component: AboutComponent},
   {path: 'zabiegi', title: `Zabiegi - ${appTitle}`,  component: TreatmentsComponent},

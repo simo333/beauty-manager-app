@@ -60,6 +60,10 @@ export class UserListComponent implements OnInit {
     return this.user;
   }
 
+  cleanUser() {
+    this.user = new User();
+  }
+
   setActualUserId(id: number) {
     this.actualUserId = id;
   }
@@ -126,4 +130,5 @@ export class UserListComponent implements OnInit {
     userRoles = userRoles.substring(0, userRoles.length - 2);
     return userRoles;
   }
+
 }
