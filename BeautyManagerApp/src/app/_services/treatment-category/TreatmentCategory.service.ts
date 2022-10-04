@@ -11,8 +11,12 @@ export class TreatmentCategoryService {
   constructor(private http: HttpClient) {
   }
 
-  public findAll(params: any): Observable<any> {
+  public findAllInPages(params: any): Observable<any> {
     return this.http.get<any>(baseUrl, {params});
+  }
+
+  public findAll(): Observable<any> {
+    return this.http.get<any>(baseUrl + "/all");
   }
 
   public findOne(categoryId: number): Observable<TreatmentCategory> {

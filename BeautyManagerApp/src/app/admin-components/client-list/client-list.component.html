@@ -14,7 +14,7 @@
             <th class="max-width">Imię</th>
             <th>Nazwisko</th>
             <th>Numer telefonu</th>
-            <th class="col-2">Akcje</th>
+            <th class="col-2 text-center">Akcje</th>
           </tr>
           </thead>
           <tbody>
@@ -30,14 +30,15 @@
               <div class="btn-group align-top">
                 <button class="btn btn-sm btn-secondary text-white"
                         type="button"
+                        title="Sprawdź szczegóły"
                         (click)="routeToClientDetails(client.id)">
-                  <i class="bi bi-search"></i> Szczegóły
+                  <i class="bi bi-search"></i>
                 </button>
-
                 <button class="btn btn-sm btn-primary bg-blue text-white mx-1"
                         type="button"
                         data-bs-toggle="modal"
                         data-bs-target="#edit-form-modal"
+                        title="Edytuj"
                         (click)="getClient(client.id)">
                   <i class="bi bi-pencil-square"></i>
                 </button>
@@ -48,6 +49,7 @@
                         (cancel)="cancelClicked=true"
                         confirmText="Usuń"
                         cancelText="Anuluj"
+                        title="Usuń"
                 >
                   <i class="bi bi-trash3-fill"></i>
                 </button>
@@ -191,16 +193,16 @@
               <div class="py-1">
                 <form
                   name="form"
-                  (ngSubmit)="f.form.valid && editClient()"
-                  #f="ngForm"
+                  (ngSubmit)="form.form.valid && editClient()"
+                  #form="ngForm"
                   novalidate
                 >
                   <div class="form-group my-1">
-                    <label for="lastName">Imię</label>
+                    <label for="editFirstName">Imię</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="firstName"
+                      name="editFirstName"
                       id="editFirstName"
                       placeholder="Podaj swoje imię"
                       [(ngModel)]="client.firstName"
@@ -208,22 +210,20 @@
                       minlength="2"
                       maxlength="100"
                       #firstName="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && firstName.errors }"
+                      [ngClass]="{ 'is-invalid': form.submitted && firstName.errors }"
                     />
-                    <div *ngIf="firstName.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="firstName.errors && form.submitted" class="invalid-feedback">
                       <div *ngIf="firstName.errors['required']">Imię jest wymagane.</div>
-                      <div *ngIf="firstName.errors['minlength']">Imię musi zawierać od 2 do 100 znaków.
-                      </div>
-                      <div *ngIf="firstName.errors['maxlength']">Imię musi zawierać od 2 do 100 znaków.
-                      </div>
+                      <div *ngIf="firstName.errors['minlength']">Imię musi zawierać od 2 do 100 znaków.</div>
+                      <div *ngIf="firstName.errors['maxlength']">Imię musi zawierać od 2 do 100 znaków.</div>
                     </div>
                   </div>
                   <div class="form-group my-1">
-                    <label for="lastName">Nazwisko</label>
+                    <label for="editLastName">Nazwisko</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="lastName"
+                      name="editLastName"
                       id="editLastName"
                       placeholder="Podaj nazwisko"
                       [(ngModel)]="client.lastName"
@@ -231,9 +231,9 @@
                       minlength="2"
                       maxlength="150"
                       #lastName="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && lastName.errors }"
+                      [ngClass]="{ 'is-invalid': form.submitted && lastName.errors }"
                     />
-                    <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+                    <div class="invalid-feedback" *ngIf="lastName.errors && form.submitted">
                       <div *ngIf="lastName.errors['required']">Nazwisko jest wymagane.</div>
                       <div *ngIf="lastName.errors['minlength']">Nazwisko musi musi zawierać od 2 do 150
                         znaków.
@@ -244,20 +244,20 @@
                     </div>
                   </div>
                   <div class="form-group my-1">
-                    <label for="phoneNumber">Numer telefonu</label>
+                    <label for="editPhoneNumber">Numer telefonu</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="phoneNumber"
+                      name="editPhoneNumber"
                       id="editPhoneNumber"
                       placeholder="Podaj numer telefonu według schematu: +48111111111"
                       [(ngModel)]="client.phoneNumber"
                       required
                       pattern="^\+\d{11}$"
                       #phoneNumber="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }"
+                      [ngClass]="{ 'is-invalid': form.submitted && phoneNumber.errors }"
                     />
-                    <div class="invalid-feedback" *ngIf="phoneNumber.errors && f.submitted">
+                    <div class="invalid-feedback" *ngIf="phoneNumber.errors && form.submitted">
                       <div *ngIf="phoneNumber.errors['required']">Numer telefonu jest wymagany.</div>
                       <div *ngIf="phoneNumber.errors['pattern']">Numer telefonu musi składać się ze znaku
                         '+' i 11 cyfr.

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Client} from "../../_services/client/client";
 import {ClientService} from "../../_services/client/client.service";
 import {ActivatedRoute} from "@angular/router";
@@ -11,14 +11,15 @@ import {ActivatedRoute} from "@angular/router";
 export class ClientDetailsComponent implements OnInit {
   client: Client = new Client();
 
-  constructor(private clientService: ClientService, private activeRoute: ActivatedRoute) {}
+  constructor(private clientService: ClientService, private activeRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe(params => {
       let clientId = params.get("id");
-      if(!isNaN(Number(clientId))){
+      if (!isNaN(Number(clientId))) {
         this.clientService.findOne(Number(clientId)).subscribe(data => this.client = data);
-      } else{
+      } else {
         console.log('Not a Number');
       }
     });

@@ -1,0 +1,504 @@
+<div class="e-panel card" xmlns="http://www.w3.org/1999/html">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-7 border border-2 border-muted rounded">
+        <table class="table table-hover table-responsive caption-top mb-5">
+          <caption><h2>Lista Zabiegów</h2>
+            <button class="btn btn-success" type="button" data-bs-toggle="modal"
+                    data-bs-target="#create-treatment-form-modal" (click)="renewTreatment()">
+              <i class="fs-5 bi-bag-plus-fill"></i> <span class="h5 px-2">Dodaj zabieg</span>
+            </button>
+          </caption>
+          <thead class="table-dark">
+          <tr>
+            <th class="max-width">Nazwa</th>
+            <th>Kategoria</th>
+            <th class="col-2 text-center">Akcje</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="
+                      let treatment of treatments | paginate: {
+                                              itemsPerPage: pageSize,
+                                              currentPage: page,
+                                              totalItems: count }">
+            <td class="text-nowrap align-middle">{{treatment.name}}</td>
+            <td class="text-nowrap align-middle">{{treatment.category.name}}</td>
+            <td class="text-center align-middle">
+              <div class="btn-group align-top">
+                <button class="btn btn-sm btn-secondary text-white"
+                        type="button"
+                        title="Sprawdź szczegóły"
+                        (click)="routeToTreatmentDetails(treatment.id)">
+                  <i class="bi bi-search"></i>
+                </button>
+                <button class="btn btn-sm btn-primary bg-blue text-white mx-1"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#edit-treatment-form-modal"
+                        title="Edytuj"
+                        (click)="getTreatment(treatment.id)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-danger btn-sm text-white" mwlConfirmationPopover
+                        [popoverMessage]="popoverTitle"
+                        placement="left-top"
+                        (confirm)="deleteTreatmentById(treatment.id)"
+                        (cancel)="cancelClicked=true"
+                        confirmText="Usuń"
+                        cancelText="Anuluj"
+                        title="Usuń"
+                >
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <pagination-controls
+            previousLabel=""
+            nextLabel=""
+            [responsive]="true"
+            (pageChange)="handleTreatmentPageChange($event)"
+            [directionLinks]="true"
+          >
+          </pagination-controls>
+        </div>
+        <div class="mt-3">
+          <h5>Pozycji na stronie:
+            <select (change)="handleTreatmentPageSizeChange($event)">
+              <option *ngFor="let size of pageSizes" [ngValue]="size">
+                {{ size }}
+              </option>
+            </select>
+          </h5>
+        </div>
+      </div>
+
+
+      <!-- Create Form Modal for Treatments -->
+      <div class="modal fade" role="dialog" tabindex="-1" id="create-treatment-form-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Utwórz nowy zabieg</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" #closeCMTreatmentButton>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="py-1">
+                <form
+                  name="form"
+                  (ngSubmit)="formCT.form.valid && createTreatment()"
+                  #formCT="ngForm"
+                  novalidate
+                >
+                  <div class="form-floating my-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="treatmentName"
+                      id="treatmentName"
+                      placeholder="Podaj nazwę zabiegu"
+                      [(ngModel)]="treatment.name"
+                      required
+                      minlength="2"
+                      maxlength="100"
+                      #treatmentName="ngModel"
+                      [ngClass]="{ 'is-invalid': formCT.submitted && treatmentName.errors }"
+                    />
+                    <label for="treatmentName">Nazwa</label>
+                    <div *ngIf="treatmentName.errors && formCT.submitted" class="invalid-feedback">
+                      <div *ngIf="treatmentName.errors['required']">Nazwa jest wymagana.</div>
+                      <div *ngIf="treatmentName.errors['minlength']">Nazwa musi zawierać od 2 do 100 znaków.</div>
+                      <div *ngIf="treatmentName.errors['maxlength']">Nazwa musi zawierać od 2 do 100 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="form-group my-1">
+                    <label for="treatmentDescription">Opis zabiegu:</label>
+                    <textarea
+                      class="form-control"
+                      rows="5"
+                      name="treatmentDescription"
+                      id="treatmentDescription"
+                      placeholder="Podaj opis zabiegu"
+                      [(ngModel)]="treatment.description"
+                      required
+                      minlength="2"
+                      maxlength="500"
+                      #treatmentDescription="ngModel"
+                      [ngClass]="{ 'is-invalid': formCT.submitted && treatmentDescription.errors }"
+                    ></textarea>
+                    <div *ngIf="treatmentDescription.errors && formCT.submitted" class="invalid-feedback">
+                      <div *ngIf="treatmentDescription.errors['required']">Nazwa jest wymagana.</div>
+                      <div *ngIf="treatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      </div>
+                      <div *ngIf="treatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-floating my-1">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="treatmentPrice"
+                      id="treatmentPrice"
+                      placeholder="Podaj cenę zabiegu"
+                      [(ngModel)]="treatment.price"
+                      required
+                      min="0.01"
+                      step="0.01"
+                      #treatmentPrice="ngModel"
+                      [ngClass]="{ 'is-invalid': formCT.submitted && treatmentPrice.errors }"
+                    />
+                    <label for="treatmentDescription">Cena [PLN]</label>
+                    <div *ngIf="treatmentPrice.errors && formCT.submitted" class="invalid-feedback">
+                      <div *ngIf="treatmentPrice.errors['required']">Cena jest wymagana.</div>
+                      <div *ngIf="treatmentPrice.errors['min']">Minimalna cena to 0.01 zł.</div>
+                    </div>
+                  </div>
+                  <label for="treatmentDuration" class="form-label">Czas trwania</label>
+                  <span class="ms-1 border border-2 bg-light" *ngIf="treatment.duration">{{treatment.duration}} minut</span>
+                  <input name="treatmentDuration"
+                         id="treatmentDuration"
+                         type="range"
+                         class="form-range"
+                         [(ngModel)]="treatment.duration" [value]="treatment.duration"
+                         min="10" max="180" step="5"
+                         required
+                         #treatmentDuration="ngModel"
+                         [ngClass]="{ 'is-invalid': formCT.submitted && treatmentDuration.errors }"
+                  />
+                  <div *ngIf="treatmentDuration.errors && formCT.submitted" class="invalid-feedback">
+                    <div *ngIf="treatmentDuration.errors['required']">Czas trwania jest wymagany.</div>
+                    <div *ngIf="treatmentDuration.errors['min']">Minimalna czas to 1 minuta.</div>
+                  </div>
+                  <label for="treatmentCategory">Kategoria:</label>
+                  <select class="form-select"
+                          name="treatmentCategory"
+                          id="treatmentCategory"
+                          [(ngModel)]="treatment.category"
+                          required
+                          #treatmentCategory="ngModel"
+                          [ngClass]="{ 'is-invalid': formCT.submitted && treatmentCategory.errors }"
+                  >
+                    <option *ngFor="let categoryName of allCategories"
+                            [ngValue]="categoryName">{{categoryName.name}}</option>
+                  </select>
+                  <div *ngIf="treatmentCategory.errors && formCT.submitted" class="invalid-feedback">
+                    <div *ngIf="treatmentCategory.errors['required']">Kategoria jest wymagana.</div>
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex justify-content-end">
+                      <button type="submit" class="btn btn-primary">Gotowe</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Form Modal for Treatments -->
+      <div class="modal fade" role="dialog" tabindex="-1" id="edit-treatment-form-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edytuj nazwę zabiegu</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" #closeEMTreatmentButton>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="py-1">
+                <form
+                  name="form"
+                  (ngSubmit)="formET.form.valid && editTreatment()"
+                  #formET="ngForm"
+                  novalidate
+                >
+                  <div class="form-floating my-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="editTreatmentName"
+                      id="editTreatmentName"
+                      placeholder="Podaj nazwę zabiegu"
+                      [(ngModel)]="treatment.name"
+                      required
+                      minlength="2"
+                      maxlength="100"
+                      #editTreatmentName="ngModel"
+                      [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentName.errors }"
+                    />
+                    <label for="editTreatmentName">Nazwa</label>
+                    <div *ngIf="editTreatmentName.errors && formET.submitted" class="invalid-feedback">
+                      <div *ngIf="editTreatmentName.errors['required']">Nazwa jest wymagana.</div>
+                      <div *ngIf="editTreatmentName.errors['minlength']">Nazwa musi zawierać od 2 do 100 znaków.</div>
+                      <div *ngIf="editTreatmentName.errors['maxlength']">Nazwa musi zawierać od 2 do 100 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="form-group my-1">
+                    <label for="editTreatmentDescription">Opis zabiegu:</label>
+                    <textarea
+                      class="form-control"
+                      rows="5"
+                      name="editTreatmentDescription"
+                      id="editTreatmentDescription"
+                      placeholder="Podaj opis zabiegu"
+                      [(ngModel)]="treatment.description"
+                      required
+                      minlength="2"
+                      maxlength="500"
+                      #editTreatmentDescription="ngModel"
+                      [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentDescription.errors }"
+                    ></textarea>
+                    <div *ngIf="editTreatmentDescription.errors && formET.submitted" class="invalid-feedback">
+                      <div *ngIf="editTreatmentDescription.errors['required']">Nazwa jest wymagana.</div>
+                      <div *ngIf="editTreatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      </div>
+                      <div *ngIf="editTreatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-floating my-1">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="editTreatmentPrice"
+                      id="editTreatmentPrice"
+                      placeholder="Podaj cenę zabiegu"
+                      [(ngModel)]="treatment.price"
+                      required
+                      min="0.01"
+                      step="0.01"
+                      #editTreatmentPrice="ngModel"
+                      [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentPrice.errors }"
+                    />
+                    <label for="editTreatmentPrice">Cena [PLN]</label>
+                    <div *ngIf="editTreatmentPrice.errors && formET.submitted" class="invalid-feedback">
+                      <div *ngIf="editTreatmentPrice.errors['required']">Cena jest wymagana.</div>
+                      <div *ngIf="editTreatmentPrice.errors['min']">Minimalna cena to 0.01 zł.</div>
+                      <div *ngIf="editTreatmentPrice.errors['step']">STEP.</div>
+                    </div>
+                  </div>
+                  <label for="treatmentDuration" class="form-label">Czas trwania</label>
+                  <span class="ms-1 border border-2 bg-light" *ngIf="treatment.duration">{{durationToMinutes(treatment)}}
+                    minut</span>
+                  <input name="editTreatmentDuration"
+                         id="editTreatmentDuration"
+                         type="range"
+                         class="form-range"
+                         [(ngModel)]="treatment.duration"
+                         min="10" max="180" step="5"
+                         required
+                         #editTreatmentDuration="ngModel"
+                         [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentDuration.errors }"
+                  />
+                  <div *ngIf="editTreatmentDuration.errors && formET.submitted" class="invalid-feedback">
+                    <div *ngIf="editTreatmentDuration.errors['required']">Czas trwania jest wymagany.</div>
+                    <div *ngIf="editTreatmentDuration.errors['min']">Minimalna czas to 1 minuta.</div>
+                  </div>
+                  <label for="editTreatmentCategory">Kategoria:</label>
+                  <select class="form-select"
+                          name="editTreatmentCategory"
+                          id="editTreatmentCategory"
+                          [(ngModel)]="treatment.category"
+                          required
+                          #editTreatmentCategory="ngModel"
+                          [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentCategory.errors }"
+                  >
+                    <option *ngFor="let categoryName of allCategories"
+                            [ngValue]="categoryName">{{categoryName.name}}</option>
+                  </select>
+                  <div *ngIf="editTreatmentCategory.errors && formET.submitted" class="invalid-feedback">
+                    <div *ngIf="editTreatmentCategory.errors['required']">Kategoria jest wymagana.</div>
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex justify-content-end">
+                      <button type="submit" class="btn btn-primary">Gotowe</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="col border border-2 border-muted rounded ms-1">
+        <table class="table table-hover caption-top mb-5">
+          <caption><h2>Lista Kategorii Zabiegów</h2>
+            <button class="btn btn-success" type="button" data-bs-toggle="modal"
+                    data-bs-target="#create-form-modal" (click)="renewCategory()">
+              <i class="fs-5 bi-journal-plus"></i> <span class="h5 px-2">Dodaj kategorię</span>
+            </button>
+          </caption>
+          <thead class="table-dark">
+          <tr>
+            <th class="max-width">Nazwa</th>
+            <th class="col-3 text-center">Akcje</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="
+                      let category of categories | paginate: {
+                                              itemsPerPage: pageSizeCategory,
+                                              currentPage: pageCategory,
+                                              totalItems: countCategory }">
+            <td class="text-nowrap align-middle">{{category.name}}</td>
+            <td class="text-center align-middle">
+              <div class="btn-group align-items-center">
+                <button class="btn btn-sm btn-primary bg-blue text-white mx-1"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#edit-form-modal"
+                        (click)="getCategory(category.id)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-danger btn-sm text-white" mwlConfirmationPopover
+                        [popoverMessage]="popoverTitle"
+                        placement="left-top"
+                        (confirm)="deleteCategoryById(category.id)"
+                        (cancel)="cancelClicked=true"
+                        confirmText="Usuń"
+                        cancelText="Anuluj"
+                >
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <pagination-controls
+            previousLabel=""
+            nextLabel=""
+            [responsive]="true"
+            (pageChange)="handlePageChange($event)"
+            [directionLinks]="true"
+          >
+          </pagination-controls>
+        </div>
+        <div class="mt-3">
+          <h5>Pozycji na stronie:
+            <select (change)="handlePageSizeChange($event)">
+              <option *ngFor="let size of pageSizes" [ngValue]="size">
+                {{ size }}
+              </option>
+            </select>
+          </h5>
+        </div>
+      </div>
+
+      <!-- Create Form Modal for Categories -->
+      <div class="modal fade" role="dialog" tabindex="-1" id="create-form-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Utwórz nową kategorię</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" #closeCreateModalButton>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="py-1">
+                <form
+                  name="form"
+                  (ngSubmit)="formCC.form.valid && createCategory()"
+                  #formCC="ngForm"
+                  novalidate
+                >
+                  <div class="form-floating my-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      id="name"
+                      placeholder="Podaj nazwę kategorii"
+                      [(ngModel)]="category.name"
+                      required
+                      minlength="3"
+                      maxlength="100"
+                      #name="ngModel"
+                      [ngClass]="{ 'is-invalid': formCC.submitted && name.errors }"
+                    />
+                    <label for="name">Nazwa</label>
+                    <div *ngIf="name.errors && formCC.submitted" class="invalid-feedback">
+                      <div *ngIf="name.errors['required']">Nazwa jest wymagana.</div>
+                      <div *ngIf="name.errors['minlength']">Nazwa musi zawierać od 3 do 100 znaków.</div>
+                      <div *ngIf="name.errors['maxlength']">Nazwa musi zawierać od 3 do 100 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex justify-content-end">
+                      <button type="submit" class="btn btn-primary">Gotowe</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Form Modal for Categories -->
+      <div class="modal fade" role="dialog" tabindex="-1" id="edit-form-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edytuj nazwę kategorii</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" #closeEditModalButton>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="py-1">
+                <form
+                  name="form"
+                  (ngSubmit)="formEC.form.valid && editCategory()"
+                  #formEC="ngForm"
+                  novalidate
+                >
+                  <div class="form-floating my-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="editName"
+                      id="editName"
+                      placeholder="Podaj nazwę kategorii"
+                      [(ngModel)]="category.name"
+                      required
+                      minlength="3"
+                      maxlength="100"
+                      #name="ngModel"
+                      [ngClass]="{ 'is-invalid': formEC.submitted && name.errors }"
+                    />
+                    <label for="editName">Podaj nazwę</label>
+                    <div *ngIf="name.errors && formEC.submitted" class="invalid-feedback">
+                      <div *ngIf="name.errors['required']">Nazwa jest wymagana.</div>
+                      <div *ngIf="name.errors['minlength']">Nazwa musi zawierać od 3 do 100 znaków.</div>
+                      <div *ngIf="name.errors['maxlength']">Nazwa musi zawierać od 3 do 100 znaków.</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex justify-content-end">
+                      <button type="submit" class="btn btn-primary">Gotowe</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
