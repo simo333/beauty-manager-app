@@ -1,0 +1,68 @@
+<div class="e-panel card col-xxl-10 col-lg-12 mx-auto my-5">
+  <a routerLink="/zabiegi">
+    <button class="btn btn-outline-secondary m-2">
+      <i class="fs-6 bi-arrow-left-square-fill"></i>
+      <span class="px-3 h6">Powrót do listy</span>
+    </button>
+  </a>
+  <div class="row align-middle">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-title bg-dark text-white p-2">
+          <h2>Dane Zabiegu</h2>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4">
+              <p class="mb-0">Nazwa</p>
+            </div>
+            <div class="col-sm-8 text-center">
+              <p class="text-muted mb-0">{{treatment.name}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-4">
+              <p class="mb-0">Cena</p>
+            </div>
+            <div class="col-sm-8 text-center">
+              <p class="text-muted mb-0">{{treatment.price}} zł</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-4">
+              <p class="mb-0">Czas trwania</p>
+            </div>
+            <div class="col-sm-8 text-center">
+              <p class="text-muted mb-0">{{durationToMinutes(treatment)}} minut</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-4">
+              <p class="mb-0">Kategoria</p>
+            </div>
+            <div class="col-sm-8 text-center">
+              <p class="text-muted mb-0">{{treatment.category.name}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <a></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-title bg-dark text-white p-2">
+          <h2>Opis</h2>
+        </div>
+        <div class="col-sm-9 text-center">
+          <p class="text-muted mb-0">{{treatment.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

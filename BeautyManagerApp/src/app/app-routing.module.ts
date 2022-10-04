@@ -12,6 +12,8 @@ import {ClientListComponent} from "./admin-components/client-list/client-list.co
 import {ClientDetailsComponent} from "./admin-components/client-details/client-details.component";
 import {UserListComponent} from "./admin-components/user-list/user-list.component";
 import {TreatmentsPanelComponent} from "./admin-components/treatments-panel/treatments-panel.component";
+import {TreatmentDetailsComponent} from "./admin-components/treatment-details/treatment-details.component";
+import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
 
 const appTitle = 'Beauty & SPA';
 
@@ -26,10 +28,12 @@ const routes: Routes = [
     {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
     {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},
     {path: 'uzytkownik/:id', title: `Użytkownik - ${appTitle}`, component: ClientDetailsComponent}, //TODO CHANGE COMPONENT OR RESIGN USER DETAILS
-    {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsPanelComponent}
+    {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsPanelComponent},
+    {path: 'zabieg/:id', title: `Zabieg - ${appTitle}`, component: TreatmentDetailsComponent},
       ]},
   {path: 'o-nas', title: `O nas - ${appTitle}`, component: AboutComponent},
   {path: 'zabiegi', title: `Zabiegi - ${appTitle}`,  component: TreatmentsComponent},
+  {path: 'zabiegi/:id', title: `Zabieg - ${appTitle}`, component: TreatmentInfoComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 

@@ -25,6 +25,9 @@ import { UserListComponent } from './admin-components/user-list/user-list.compon
 import {UserService} from "./_services/users/user.service";
 import { TreatmentsPanelComponent } from './admin-components/treatments-panel/treatments-panel.component';
 import {TreatmentCategoryService} from "./_services/treatment-category/TreatmentCategory.service";
+import {TreatmentService} from "./_services/treatment/treatment.service";
+import { TreatmentDetailsComponent } from './admin-components/treatment-details/treatment-details.component';
+import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +44,8 @@ import {TreatmentCategoryService} from "./_services/treatment-category/Treatment
     ClientDetailsComponent,
     UserListComponent,
     TreatmentsPanelComponent,
+    TreatmentDetailsComponent,
+    TreatmentInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +60,8 @@ import {TreatmentCategoryService} from "./_services/treatment-category/Treatment
     httpInterceptorProviders,
     ClientService,
     UserService,
-    TreatmentCategoryService
+    TreatmentCategoryService,
+    TreatmentService
   ],
   bootstrap: [AppComponent]
 })

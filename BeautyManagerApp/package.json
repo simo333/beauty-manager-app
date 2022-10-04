@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~14.2.4",
     "@angular/platform-browser-dynamic": "~14.2.4",
     "@angular/router": "~14.2.4",
+    "@js-joda/core": "^5.4.1",
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@popperjs/core": "^2.11.6",
     "@schematics/angular": "^14.2.4",
