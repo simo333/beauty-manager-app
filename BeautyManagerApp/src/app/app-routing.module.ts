@@ -19,8 +19,9 @@ const appTitle = 'Beauty & SPA';
 
 const routes: Routes = [
   {path: 'home', title: `${appTitle}`, component: HomeComponent},
-  {path: 'zaloguj', title: `Logowanie - ${appTitle}`, component: LoginComponent},
-  {path: 'zarejestruj', title: `Rejestracja - ${appTitle}`, component: RegisterComponent},
+  {path: 'logowanie', title: `Logowanie - ${appTitle}`, component: LoginComponent},
+  {path: 'logowanie/expired', title: `Logowanie - ${appTitle}`, component: LoginComponent},
+  {path: 'rejestracja', title: `Rejestracja - ${appTitle}`, component: RegisterComponent},
   {path: 'profil', title: `Profil - ${appTitle}`, component: ProfileComponent},
   {path: 'user', title: `Panel użytkownika - ${appTitle}`, component: BoardUserComponent},
   {path: 'admin', title: `Panel admina - ${appTitle}`, component: BoardAdminComponent, children: [

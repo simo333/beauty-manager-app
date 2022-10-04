@@ -3,6 +3,9 @@
 <br>
 <div class="row d-flex justify-content-center">
   <div class="col col-lg-5 col-xl-4 col-xxl-3">
+    <div class="alert alert-warning d-flex align-items-center fw-bold border-2 border-danger" role="alert" *ngIf="sessionExpired && !isLoggedIn">
+        <span class="mx-auto"><i class="fs-4 bi-exclamation-triangle-fill pe-1"></i> Twoja sesja wygasła. Zaloguj się ponownie.</span>
+    </div>
     <div class="card card-container p-4">
       <div *ngIf="!isLoggedIn">
         <h1>Zaloguj się</h1>
@@ -62,7 +65,7 @@
             Podano niepoprawne dane logowania.
           </div>
         </div>
-        <p>Nie masz jeszcze konta? <a routerLink="/zarejestruj">Utwórz nowe konto.</a></p>
+        <p>Nie masz jeszcze konta? <a routerLink="/rejestracja">Utwórz nowe konto.</a></p>
       </form>
       <div class="alert alert-success" *ngIf="isLoggedIn">
         Zalogowany jako {{ email }}.
