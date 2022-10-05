@@ -9,6 +9,7 @@ const baseUrl = 'http://localhost:8080/api/treatments';
 @Injectable()
 export class TreatmentService {
 
+  // For TreatmentInfoComponent - which category is chosen
   category: TreatmentCategory = new TreatmentCategory();
 
   constructor(private http: HttpClient) {
