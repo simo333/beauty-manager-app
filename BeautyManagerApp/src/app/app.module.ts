@@ -28,6 +28,7 @@ import {TreatmentCategoryService} from "./_services/treatment-category/Treatment
 import {TreatmentService} from "./_services/treatment/treatment.service";
 import { TreatmentDetailsComponent } from './admin-components/treatment-details/treatment-details.component';
 import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
+import { VisitListComponent } from './admin-components/visit-list/visit-list.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info
     UserListComponent,
     TreatmentsPanelComponent,
     TreatmentDetailsComponent,
-    TreatmentInfoComponent
+    TreatmentInfoComponent,
+    VisitListComponent
   ],
   imports: [
     BrowserModule,

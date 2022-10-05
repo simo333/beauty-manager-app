@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HTTP_INTERCEPTORS,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
 import {StorageService} from "../_services/storage.service";
 import {AuthService} from "../_services/auth.service";
 import {EventBusService} from "../_shared/EventBusService";
@@ -22,7 +22,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     private storageService: StorageService,
     private authService: AuthService,
     private eventBusService: EventBusService
-  ) {}
+  ) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
@@ -52,7 +53,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         return this.authService.refreshToken().pipe(
           switchMap(() => {
             this.isRefreshing = false;
-
             return next.handle(request);
           }),
           catchError((error) => {
@@ -61,19 +61,15 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             if (error.status == '403') {
               this.eventBusService.emit(new EventData('logout', null));
             }
-
             return throwError(() => error);
           })
         );
       }
     }
-
     return next.handle(request);
   }
 }
 
-
-
 export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
+  {provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true},
 ];
