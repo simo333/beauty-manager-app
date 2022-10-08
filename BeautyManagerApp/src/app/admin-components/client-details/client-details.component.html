@@ -52,7 +52,56 @@
             <h2>Wizyty</h2>
           </div>
           <div class="card-body">
-              -- WIZYTY--
+            <div class="col">
+              <div class="card-body">
+                <div class="e-table">
+                  <div class="table-responsive table-lg">
+                    <table class="table table-hover caption-top mb-5">
+                      <thead class="table-dark">
+                      <tr>
+                        <th>Data zabiegu</th>
+                        <th>Zabieg</th>
+                        <th>Imię i nazwisko</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="
+                      let visit of visits | paginate: {
+                                              itemsPerPage: pageSize,
+                                              currentPage: page,
+                                              totalItems: count }">
+                        <td class="text-nowrap align-middle">{{formatDate(visit.dateTime)}}</td>
+                        <td class="text-nowrap align-middle">{{visit.treatment.name}}</td>
+                        <td class="text-nowrap align-middle">{{visit.client.fullName}}</td>
+                      </tr>
+                      </tbody>
+                      <br>
+                    </table>
+                  </div>
+                  <div class="text-center">
+                    <pagination-controls
+                      previousLabel=""
+                      nextLabel=""
+                      [responsive]="true"
+                      (pageChange)="handlePageChange($event)"
+                      [directionLinks]="true"
+                    >
+                    </pagination-controls>
+                  </div>
+                  <div class="mt-3">
+                    <h5>Pozycji na stronie:
+                      <select (change)="handlePageSizeChange($event)">
+                        <option *ngFor="let size of pageSizes" [ngValue]="size">
+                          {{ size }}
+                        </option>
+                      </select>
+                    </h5>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
 

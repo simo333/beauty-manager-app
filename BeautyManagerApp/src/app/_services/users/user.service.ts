@@ -19,6 +19,10 @@ export class UserService {
     return this.http.get<User>(baseUrl + `/${userId}`);
   }
 
+  public findOneByEmail(email: string): Observable<User> {
+    return this.http.get<User>(baseUrl + `/email/${email}`);
+  }
+
   public save(user: User): Observable<User> {
     return this.http.post<User>(baseUrl, user);
   }
@@ -30,8 +34,6 @@ export class UserService {
   public patch(user: User): Observable<User> {
     return this.http.patch<User>(baseUrl + `/${user.id}`, user);
   }
-
-  //TODO change password / phone for USER_ROLE
 
   public delete(userId: number): Observable<void> {
     return this.http.delete<void>(baseUrl + `/${userId}`);

@@ -35,6 +35,7 @@ import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {NgxDaterangepickerMd} from "ngx-datepicker-material";
 import {MatInputModule} from "@angular/material/input";
+import { ClientAddVisitComponent } from './client-add-visit/client-add-visit.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import {MatInputModule} from "@angular/material/input";
     TreatmentInfoComponent,
     VisitListComponent,
     VisitAddComponent,
+    ClientAddVisitComponent,
   ],
   imports: [
     BrowserModule,
