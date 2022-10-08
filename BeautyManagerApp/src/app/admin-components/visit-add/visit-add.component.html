@@ -82,8 +82,7 @@
                        [maxDate]="maxDate"
                        name="date"
                        id="date"
-                       placeholder="Wybierz datę"
-                       (click)="show()"/>
+                       placeholder="Wybierz datę"/>
               </div>
               <div>
                 <label for="time"> Wybierz godzinę wizyty:</label>
@@ -110,6 +109,9 @@
                   Gotowe
                 </button>
               </div>
+            </div>
+            <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+              {{errorMessage}}
             </div>
           </form>
         </div>
@@ -172,6 +174,25 @@
         </div>
       </div>
       <hr>
+    </div>
+  </div>
+</div>
+
+<button id="openModalButton" [hidden]="true" data-bs-toggle="modal" data-bs-target="#myModal" #openModalButton></button>
+<div id="myModal" class="modal fade" role="dialog" tabindex="-1" (blur)="reload()">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-success"><i class="bi bi-calendar-check-fill"></i> Udało się umówić wizytę!</h5>
+        <button type="button" class="close" data-bs-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="selectedDate && selectedTime">
+        <p>Termin wizyty:</p>
+        <p><i class="bi bi-calendar-event-fill"></i> {{selectedDate.startDate.format('dddd, D MMMM YYYY')}}</p>
+        <p><i class="bi bi-clock-fill"></i> {{selectedTime}}</p>
+      </div>
     </div>
   </div>
 </div>

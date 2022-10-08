@@ -14,11 +14,11 @@
           </div>
           <div class="card-body">
             <div class="py-1">
-              <form
-                name="form"
-                (ngSubmit)="f.form.valid && createVisit()"
-                #f="ngForm"
-                novalidate
+              <form *ngIf="!isLoggedIn"
+                    name="form"
+                    (ngSubmit)="f.form.valid && createVisit()"
+                    #f="ngForm"
+                    novalidate
               >
                 Dane klienta:
                 <div class="form-floating my-1">
@@ -131,6 +131,7 @@
                            class="form-control"
                            matInput
                            ngxDaterangepickerMd
+                           [isInvalidDate]="isInvalidDate"
                            [readonly]="true"
                            [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}"
                            [autoApply]="true"
@@ -169,6 +170,93 @@
                   </div>
                 </div>
               </form>
+
+              <form *ngIf="isLoggedIn"
+                    name="form"
+                    (ngSubmit)="f.form.valid && createVisit()"
+                    #f="ngForm"
+                    novalidate
+              >
+                <label for="category2">Wybierz rodzaj zabiegu:</label>
+                <select class="form-select"
+                        name="category2"
+                        id="category2"
+                        [(ngModel)]="category"
+                        required
+                        #cat="ngModel"
+                        [ngClass]="{ 'is-invalid': f.submitted && cat.errors }"
+                        (ngModelChange)="categorySelectionChange()">
+                  <option *ngFor="let treatmentCategory of categories"
+                          [ngValue]="treatmentCategory">{{treatmentCategory.name}}</option>
+                </select>
+                <div *ngIf="cat.errors && f.submitted" class="invalid-feedback">
+                  <div *ngIf="cat.errors['required']">Kategoria jest wymagana.</div>
+                </div>
+                <div *ngIf="category">
+                  <label for="treatment2">Wybierz zabieg:</label>
+                  <select class="form-select"
+                          name="treatment2"
+                          id="treatment2"
+                          [(ngModel)]="visit.treatment"
+                          required
+                          #treatment="ngModel"
+                          [ngClass]="{ 'is-invalid': f.submitted && treatment.errors }">
+                    <option *ngFor="let treatment of treatments"
+                            [ngValue]="treatment">{{treatment.name}}</option>
+                  </select>
+                  <div *ngIf="treatment.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="treatment.errors['required']">Kategoria jest wymagana.</div>
+                  </div>
+                </div>
+                <div *ngIf="visit.treatment">
+                  <div>
+                    <label for="date2"> Wybierz dzień wizyty:</label>
+                    <input type="text"
+                           autocomplete="off"
+                           class="form-control"
+                           matInput
+                           ngxDaterangepickerMd
+                           [readonly]="true"
+                           [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}"
+                           [autoApply]="true"
+                           [singleDatePicker]="true"
+                           [(ngModel)]="selectedDate"
+                           [minDate]="minDate"
+                           [maxDate]="maxDate"
+                           name="date2"
+                           id="date2"
+                           placeholder="Wybierz datę"/>
+                  </div>
+                  <div>
+                    <label for="time2"> Wybierz godzinę wizyty:</label>
+                    <input class="form-control"
+                           [readOnly]="true"
+                           [ngxTimepicker]="picker"
+                           autocomplete="off"
+                           id="time2"
+                           name="time2"
+                           [(ngModel)]="selectedTime"
+                           [format]="24"
+                           [min]="'09:00'"
+                           [max]="'16:30'"
+                           [hidden]=""
+                           placeholder="Wybierz godzinę"
+                           required>
+                    <ngx-material-timepicker #picker [minutesGap]="15" [theme]="darkTheme"></ngx-material-timepicker>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col d-flex justify-content-center p-2">
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid"><i class="bi bi-check-lg"></i>
+                      Gotowe
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+                  {{errorMessage}}
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -186,7 +274,7 @@
               <p class="mb-0 fw-bold">Klient</p>
             </div>
             <div class="col-sm-9 text-center">
-              <p class="text-muted mb-0" *ngIf="firstName.valid && lastName.valid && phoneNumber.valid">
+              <p class="text-muted mb-0">
                 {{visit.client.firstName}} {{visit.client.lastName}}</p>
             </div>
           </div>
@@ -233,6 +321,25 @@
           </div>
           <hr>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button id="openModalButton" [hidden]="true" data-bs-toggle="modal" data-bs-target="#myModal" #openModalButton></button>
+<div id="myModal" class="modal fade" role="dialog" tabindex="-1" (blur)="onModalClose()">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-success"><i class="bi bi-calendar-check-fill"></i> Udało się umówić wizytę!</h5>
+        <button type="button" class="close" data-bs-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="selectedDate && selectedTime">
+        <p>Termin wizyty:</p>
+        <p><i class="bi bi-calendar-event-fill"></i> {{selectedDate.startDate.format('dddd, D MMMM YYYY')}}</p>
+        <p><i class="bi bi-clock-fill"></i> {{selectedTime}}</p>
       </div>
     </div>
   </div>

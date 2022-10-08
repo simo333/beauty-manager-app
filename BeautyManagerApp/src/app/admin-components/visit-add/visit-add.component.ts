@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Treatment} from "../../_services/treatment/treatment";
 import {TreatmentCategory} from "../../_services/treatment-category/TreatmentCategory";
 import {Visit} from "../../_services/visits/visit";
@@ -38,6 +38,7 @@ export class VisitAddComponent implements OnInit {
   maxDate: Moment;
   selectedDate!: { startDate: Moment };
   selectedTime!: string;
+  errorMessage: string = '';
 
   constructor(private visitService: VisitService, private router: Router,
               private treatmentService: TreatmentService,
@@ -62,7 +63,12 @@ export class VisitAddComponent implements OnInit {
     let date = new Date(year, month, day, hour, minute, 0);
     this.visit.dateTime = date;
     this.visitService.save(this.visit).subscribe(response => {
+      this.openModal();
       console.log(response);
+    }, error => {
+      let nextFreeDate = moment(error.error.message).add(2, 'hour');
+      console.log(nextFreeDate);
+      this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
     });
   }
 
@@ -74,19 +80,6 @@ export class VisitAddComponent implements OnInit {
       console.log(this.isBusy);
       console.log(this.nextFreeDate);
     });
-  }
-
-  show() {  //TODO delete
-    let year = this.selectedDate.startDate.year();
-    let month = this.selectedDate.startDate.month();
-    let day = this.selectedDate.startDate.date();
-    let hour = Number(this.selectedTime.substring(0, 2));
-    let minute = Number(this.selectedTime.substring(3));
-    let date = new Date(year, month, day, hour, minute, 0);
-    this.visit.dateTime = date;
-    console.log(this.visit);
-    console.log("Selected date", this.selectedDate.startDate.format("DD-MM-YYYY"));
-    console.log("Selected time", this.selectedTime);
   }
 
   // Treatments
@@ -130,6 +123,12 @@ export class VisitAddComponent implements OnInit {
       time = Duration.ofMinutes(Number(treatment.duration));
     }
     return time.toMinutes();
+  }
+
+  @ViewChild('openModalButton') openModalBtn!: any;
+
+  openModal() {
+    this.openModalBtn.nativeElement.click();
   }
 
   darkTheme: NgxMaterialTimepickerTheme = {
