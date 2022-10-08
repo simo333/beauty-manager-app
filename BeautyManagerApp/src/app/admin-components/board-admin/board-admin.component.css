@@ -1,0 +1,21 @@
+a {
+  color: blueviolet;
+}
+
+a:hover {
+  font-weight: bold;
+  color: darkorange;
+  background-color: #444;
+}
+
+ul, li {
+  width: 100%;
+}
+
+li {
+  text-align: center;
+}
+
+.link {
+  color: black;
+}

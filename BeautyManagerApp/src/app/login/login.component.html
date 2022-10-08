@@ -1,67 +1,75 @@
-<div class="col-md-6">
-  <div class="card card-container">
-    <img
-      id="profile-img"
-      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card"
-    />
-    <form
-      *ngIf="!isLoggedIn"
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate
-    >
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="text"
-          class="form-control"
-          name="email"
-          id="email"
-          [(ngModel)]="form.email"
-          required
-          #email="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
-        />
-        <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
-          Email is required!
+<br>
+<br>
+<br>
+<div class="row d-flex justify-content-center">
+  <div class="col col-lg-5 col-xl-4 col-xxl-3">
+    <div class="alert alert-warning d-flex align-items-center fw-bold border-2 border-danger" role="alert" *ngIf="sessionExpired && !isLoggedIn">
+        <span class="mx-auto"><i class="fs-4 bi-exclamation-triangle-fill pe-1"></i> Twoja sesja wygasła. Zaloguj się ponownie.</span>
+    </div>
+    <div class="card card-container p-4">
+      <div *ngIf="!isLoggedIn">
+        <h1>Zaloguj się</h1>
+        <p class="text-muted">Zaloguj się na swoje konto</p>
+      </div>
+      <form
+        *ngIf="!isLoggedIn"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group my-1">
+          <input
+            type="text"
+            class="form-control"
+            name="email"
+            id="email"
+            placeholder="Email"
+            [(ngModel)]="form.email"
+            required
+            #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+          />
+          <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
+            Email jest wymagany.
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          id="password"
-          [(ngModel)]="form.password"
-          required
-          minlength="8"
-          maxlength="120"
-          #password="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
-        />
-        <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
-          <div *ngIf="password.errors['required']">Password is required</div>
-          <div *ngIf="password.errors['minlength']">Password must be at least 8 characters</div>
-          <div *ngIf="password.errors['maxlength']">Password must be at most 120 characters</div>
+        <div class="form-group my-1">
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Hasło"
+            [(ngModel)]="form.password"
+            required
+            #password="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+          />
+          <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="password.errors['required']">Hasło jest wymagane.</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary btn-block">
-          Login
-        </button>
-      </div>
-      <div class="form-group">
-        <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
-          Login failed: {{ errorMessage }}
+        <div class="form-group my-1">
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-primary px-4">Zaloguj</button>
+            </div>
+            <div class="col text-end">
+              <button type="button" class="btn btn-link px-0">Zapomniałeś hasła?</button>
+            </div>
+          </div>
         </div>
+        <div class="form-group my-3">
+          <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
+            Podano niepoprawne dane logowania.
+          </div>
+        </div>
+        <p>Nie masz jeszcze konta? <a routerLink="/rejestracja">Utwórz nowe konto.</a></p>
+      </form>
+      <div class="alert alert-success" *ngIf="isLoggedIn">
+        Zalogowany jako {{ email }}.
       </div>
-    </form>
-
-    <div class="alert alert-success" *ngIf="isLoggedIn">
-      Logged in as {{ roles }}.
     </div>
   </div>
 </div>

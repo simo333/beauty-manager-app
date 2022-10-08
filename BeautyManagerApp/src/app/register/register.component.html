@@ -1,68 +1,136 @@
-<div class="col-md-6">
-  <div class="card card-container">
-    <img
-      id="profile-img"
-      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card"
-    />
-    <form
-      *ngIf="!isSuccessful"
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate
-    >
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          class="form-control"
-          name="email"
-          id="email"
-          [(ngModel)]="form.email"
-          required
-          email
-          #email="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
-        />
-        <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
-          <div *ngIf="email.errors['required']">Email is required</div>
-          <div *ngIf="email.errors['email']">
-            Email must be a valid email address
+<br>
+<br>
+<br>
+<div class="row justify-content-center">
+  <div class="col col-lg-5 col-xl-4 col-xxl-3">
+    <div class="card card-container p-4">
+      <div *ngIf="!isSuccessful">
+        <h1>Utwórz nowe konto</h1>
+        <p class="text-muted">Utworzenie konta pozwoli Ci odkryć nowe możliwości!</p>
+      </div>
+      <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group my-1">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            id="email"
+            placeholder="Podaj swój adres e-mail"
+            [(ngModel)]="form.email"
+            required
+            email
+            #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+          />
+          <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+            <div *ngIf="email.errors['required']">Email jest wymagany.</div>
+            <div *ngIf="email.errors['email']">
+              Email jest niepoprawny.
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          id="password"
-          [(ngModel)]="form.password"
-          required
-          minlength="8"
-          maxlength="120"
-          #password="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
-        />
-        <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
-          <div *ngIf="password.errors['required']">Password is required</div>
-          <div *ngIf="password.errors['minlength']">Password must be at least 8 characters</div>
-          <div *ngIf="password.errors['maxlength']">Password must be at most 120 characters</div>
+        <div class="form-group my-1">
+          <label for="password">Hasło</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Podaj hasło składające się z minimum 8 znaków"
+            [(ngModel)]="form.password"
+            required
+            minlength="8"
+            maxlength="120"
+            #password="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+          />
+          <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+            <div *ngIf="password.errors['required']">Hasło jest wymagane.</div>
+            <div *ngIf="password.errors['minlength']">Hasło musi składać się z conajmniej 8 znaków.</div>
+            <div *ngIf="password.errors['maxlength']">Hasło musi składać się z maksymalnie 120 znaków.</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary btn-block">Sign Up</button>
-      </div>
+        <div class="form-group my-1">
+          <label for="firstName">Imię</label>
+          <input
+            type="text"
+            class="form-control"
+            name="firstName"
+            id="firstName"
+            placeholder="Podaj imię"
+            [(ngModel)]="form.firstName"
+            required
+            minlength="2"
+            maxlength="100"
+            #firstName="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && firstName.errors }"
+          />
+          <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+            <div *ngIf="firstName.errors['required']">Imię jest wymagane.</div>
+            <div *ngIf="firstName.errors['minlength']">Imię musi składać się z conajmniej 2 znaków.</div>
+            <div *ngIf="firstName.errors['maxlength']">Imię musi składać się z maksymalnie 100 znaków.</div>
+          </div>
+        </div>
+        <div class="form-group my-1">
+          <label for="lastName">Nazwisko</label>
+          <input
+            type="text"
+            class="form-control"
+            name="lastName"
+            id="lastName"
+            placeholder="Podaj nazwisko"
+            [(ngModel)]="form.lastName"
+            required
+            minlength="2"
+            maxlength="150"
+            #lastName="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && lastName.errors }"
+          />
+          <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+            <div *ngIf="lastName.errors['required']">Nazwisko jest wymagane.</div>
+            <div *ngIf="lastName.errors['minlength']">Nazwisko musi składać się z conajmniej 2 znaków.</div>
+            <div *ngIf="lastName.errors['maxlength']">Nazwisko musi składać się z maksymalnie 150 znaków.</div>
+          </div>
+        </div>
+        <div class="form-group my-1">
+          <label for="phoneNumber">Numer telefonu</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            id="phoneNumber"
+            placeholder="Podaj numer telefonu według schematu: +48111111111"
+            [(ngModel)]="form.phoneNumber"
+            required
+            pattern="^\+\d{11}$"
+            #phoneNumber="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }"
+          />
+          <div class="invalid-feedback" *ngIf="phoneNumber.errors && f.submitted">
+            <div *ngIf="phoneNumber.errors['required']">Numer telefonu jest wymagany.</div>
+            <div *ngIf="phoneNumber.errors['pattern']">Numer telefonu musi składać się ze znaku '+' i 11 cyfr.</div>
+          </div>
+        </div>
+        <div class="form-group my-1">
+          <button class="btn btn-primary btn-block">Zarejestruj</button>
+        </div>
+        <p>Masz już konta? <a routerLink="/logowanie">Zaloguj się.</a></p>
 
-      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-        Signup failed!<br />{{ errorMessage }}
-      </div>
-    </form>
+        <div class="alert alert-warning my-3" *ngIf="f.submitted && isSignUpFailed">
+          Rejestracja nie powiodła się.<br/> Ten email jest już zajęty.
+        </div>
+      </form>
 
-    <div class="alert alert-success" *ngIf="isSuccessful">
-      Your registration is successful!
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Rejestracja przebiegła pomyślnie!
+      </div>
     </div>
   </div>
 </div>
