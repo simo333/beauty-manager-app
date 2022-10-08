@@ -19,8 +19,12 @@ export class TreatmentService {
     return this.http.get<any>(baseUrl, {params});
   }
 
-  public findAllByCategory(categoryId: number, params: any): Observable<any> {
+  public findPageByCategory(categoryId: number, params: any): Observable<any> {
     return this.http.get<any>(baseUrl + `/category/${categoryId}`, {params});
+  }
+
+  public findAllByCategory(categoryId: number): Observable<any> {
+    return this.http.get<any>(baseUrl + `/category-list/${categoryId}`);
   }
 
   public findOne(treatmentId: number): Observable<Treatment> {

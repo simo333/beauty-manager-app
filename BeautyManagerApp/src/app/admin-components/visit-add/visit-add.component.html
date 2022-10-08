@@ -1,0 +1,209 @@
+<div class="row">
+  <div class="e-panel card col-5">
+    <a routerLink="/admin/wizyty">
+      <button class="btn btn-outline-secondary m-2">
+        <i class="fs-6 bi-arrow-left-square-fill"></i>
+        <span class="px-3 h6">Powrót do listy</span>
+      </button>
+    </a>
+    <div class="card-body">
+      <div class="card-title">
+        <h5>Utwórz nową wizytę</h5>
+      </div>
+      <div class="card-body">
+        <div class="py-1">
+          <form
+            name="form"
+            (ngSubmit)="f.form.valid && createVisit()"
+            #f="ngForm"
+            novalidate
+          >
+            <label for="client">Wybierz klienta:</label>
+            <select class="form-select"
+                    name="client"
+                    id="client"
+                    [(ngModel)]="visit.client"
+                    required
+                    #visitClient="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && visitClient.errors }">
+              <option *ngFor="let visitClient of clients"
+                      [ngValue]="visitClient">{{visitClient.fullName}}</option>
+            </select>
+            <div *ngIf="visitClient.errors && f.submitted" class="invalid-feedback">
+              <div *ngIf="visitClient.errors['required']">Klient jest wymagany.</div>
+            </div>
+            <div *ngIf="visit.client">
+              <label for="category">Wybierz kategorię:</label>
+              <select class="form-select"
+                      name="category"
+                      id="category"
+                      [(ngModel)]="category"
+                      required
+                      #cat="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && cat.errors }"
+                      (ngModelChange)="categorySelectionChange()">
+                <option *ngFor="let treatmentCategory of categories"
+                        [ngValue]="treatmentCategory">{{treatmentCategory.name}}</option>
+              </select>
+              <div *ngIf="cat.errors && f.submitted" class="invalid-feedback">
+                <div *ngIf="cat.errors['required']">Kategoria jest wymagana.</div>
+              </div>
+            </div>
+            <div *ngIf="category">
+              <label for="treatment">Wybierz zabieg:</label>
+              <select class="form-select"
+                      name="treatment"
+                      id="treatment"
+                      [(ngModel)]="visit.treatment"
+                      required
+                      #treatment="ngModel"
+                      [ngClass]="{ 'is-invalid': f.submitted && treatment.errors }">
+                <option *ngFor="let treatment of treatments"
+                        [ngValue]="treatment">{{treatment.name}}</option>
+              </select>
+              <div *ngIf="treatment.errors && f.submitted" class="invalid-feedback">
+                <div *ngIf="treatment.errors['required']">Kategoria jest wymagana.</div>
+              </div>
+            </div>
+            <div *ngIf="visit.treatment">
+              <!--            <label for="date">Wybierz datę:</label>-->
+              <!--            <ngb-datepicker #datepicker-->
+              <!--                            id="date"-->
+              <!--                            name="date"-->
+              <!--                            [minDate]="minDate"-->
+              <!--                            [(ngModel)]="dateStruct"-->
+              <!--                            [startDate]="getToday()"-->
+              <!--                            [displayMonths]="2"-->
+              <!--                            (navigate)="date = $event.next"-->
+              <!--                            (click)="show()"-->
+              <!--                            #dateStamp="ngModel"-->
+              <!--                            [ngClass]="{ 'is-invalid': f.submitted && dateStamp.errors }"-->
+              <!--                            required-->
+              <!--            >-->
+              <!--            </ngb-datepicker>-->
+              <!--            <div *ngIf="dateStamp.errors && f.submitted" class="invalid-feedback">-->
+              <!--              <div *ngIf="dateStamp.errors['required']">Data jest wymagana.</div>-->
+              <!--            </div>-->
+              <!--              <label for="time">Wybierz czas:</label>-->
+              <!--              <ngb-timepicker name="time"-->
+              <!--                              id="time"-->
+              <!--                              [(ngModel)]="time"-->
+              <!--                              required-->
+              <!--                              [minuteStep]="30"-->
+              <!--                              [readonlyInputs]="true"-->
+              <!--                              #timeStamp="ngModel"-->
+              <!--                              [ngClass]="{ 'is-invalid': f.submitted && timeStamp.errors }">-->
+
+              <!--              </ngb-timepicker>-->
+              <!--              <div *ngIf="timeStamp.errors && f.submitted" class="invalid-feedback">-->
+              <!--                <div *ngIf="timeStamp.errors['required']">Czas jest wymagany.</div>-->
+              <!--              </div>-->
+              <div>
+                <label for="date"> Wybierz dzień wizyty:</label>
+                <input type="text"
+                       autocomplete="off"
+                       class="form-control"
+                       matInput
+                       ngxDaterangepickerMd
+                       [readonly]="true"
+                       [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}"
+                       [autoApply]="true"
+                       [singleDatePicker]="true"
+                       [(ngModel)]="selectedDate"
+                       [minDate]="minDate"
+                       [maxDate]="maxDate"
+                       name="date"
+                       id="date"
+                       placeholder="Wybierz datę"
+                       (click)="show()"/>
+              </div>
+              <div>
+                <label for="time"> Wybierz godzinę wizyty:</label>
+                <input class="form-control"
+                       [readOnly]="true"
+                       [ngxTimepicker]="picker"
+                       autocomplete="off"
+                       id="time"
+                       name="time"
+                       [(ngModel)]="selectedTime"
+                       [format]="24"
+                       [min]="'09:00'"
+                       [max]="'16:30'"
+                       [hidden]=""
+                       placeholder="Wybierz godzinę"
+                       required>
+                <ngx-material-timepicker #picker [minutesGap]="15" [theme]="darkTheme"></ngx-material-timepicker>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col d-flex justify-content-center p-2">
+                <button type="submit" class="btn btn-primary" [disabled]="!f.valid"><i class="bi bi-check-lg"></i>
+                  Gotowe
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="e-panel card col-3 ms-3">
+    <div class="card-title p-2">
+      <h2>Szczegóły wizyty</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0 fw-bold">Klient</p>
+        </div>
+        <div class="col-sm-9 text-center">
+          <p class="text-muted mb-0" *ngIf="visit.client">{{visit.client.fullName}}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0 fw-bold">Kategoria</p>
+        </div>
+        <div class="col-sm-9 text-center">
+          <p class="text-muted mb-0" *ngIf="category">{{category.name}}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0 fw-bold">Zabieg</p>
+        </div>
+        <div class="col-sm-9 text-center">
+          <p class="text-muted mb-0" *ngIf="visit.treatment">{{visit.treatment.name}}
+            <span title="Czas trwania zabiegu" class="border p-1 bg-light">
+              <i class="fs-5 bi-clock"></i>
+              {{durationToMinutes(visit.treatment)}} minut
+            </span>
+          </p>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0 fw-bold">Data</p>
+        </div>
+        <div class="col-sm-9 text-center">
+          <p class="text-muted mb-0" *ngIf="selectedDate">{{selectedDate.startDate.format('dddd, D MMMM YYYY')}}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0 fw-bold">Czas</p>
+        </div>
+        <div class="col-sm-9 text-center">
+          <p class="text-muted mb-0" *ngIf="selectedTime">{{selectedTime}}</p>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>

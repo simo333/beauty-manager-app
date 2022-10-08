@@ -1,12 +1,13 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Observable, throwError} from "rxjs";
 import {Visit} from "./visit";
+import {catchError} from "rxjs/operators";
 
 const baseUrl = 'http://localhost:8080/api/visits';
 
 @Injectable()
-export class TreatmentService {
+export class VisitService {
 
   constructor(private http: HttpClient) {
   }
@@ -21,6 +22,10 @@ export class TreatmentService {
 
   public findOne(visitId: number): Observable<Visit> {
     return this.http.get<Visit>(baseUrl + `/${visitId}`);
+  }
+
+  public freeBusy(visit: Visit): Observable<any> {
+    return this.http.post<any>(baseUrl + `/free-busy`, visit);
   }
 
   public save(visit: Visit): Observable<Visit> {

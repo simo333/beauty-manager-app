@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import { Observable } from "rxjs";
-import { TreatmentCategory } from "./TreatmentCategory";
+import {Observable} from "rxjs";
+import {TreatmentCategory} from "./TreatmentCategory";
 
 const baseUrl = 'http://localhost:8080/api/categories';
 

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {Observable, throwError} from "rxjs";
 import {Client} from "./client";
 
 const baseUrl = 'http://localhost:8080/api/clients';
@@ -11,8 +11,12 @@ export class ClientService {
   constructor(private http: HttpClient) {
   }
 
-  public findAll(params: any): Observable<any> {
+  public findAllPages(params: any): Observable<any> {
     return this.http.get<any>(baseUrl, {params});
+  }
+
+  public findAll(): Observable<any> {
+    return this.http.get<any>(baseUrl + "/all");
   }
 
   public findOne(clientId: number): Observable<Client> {
@@ -29,5 +33,16 @@ export class ClientService {
 
   public delete(clientId: number): Observable<void> {
     return this.http.delete<void>(baseUrl + `/${clientId}`);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if(error.status === 400) {
+      console.log('Error code 400', error.error);
+    } else if(error.status === 404) {
+      console.log('Error code 404', error.error);
+    } else if(error.status === 500) {
+      console.log('Error code 500', error.error);
+    }
+    return throwError(() => new Error('Error' + error.error));
   }
 }

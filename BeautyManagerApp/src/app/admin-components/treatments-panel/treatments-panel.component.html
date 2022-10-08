@@ -128,15 +128,15 @@
                       [(ngModel)]="treatment.description"
                       required
                       minlength="2"
-                      maxlength="500"
+                      maxlength="1000"
                       #treatmentDescription="ngModel"
                       [ngClass]="{ 'is-invalid': formCT.submitted && treatmentDescription.errors }"
                     ></textarea>
                     <div *ngIf="treatmentDescription.errors && formCT.submitted" class="invalid-feedback">
                       <div *ngIf="treatmentDescription.errors['required']">Nazwa jest wymagana.</div>
-                      <div *ngIf="treatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      <div *ngIf="treatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 1000 znaków.
                       </div>
-                      <div *ngIf="treatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      <div *ngIf="treatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 1000 znaków.
                       </div>
                     </div>
                   </div>
@@ -161,7 +161,8 @@
                     </div>
                   </div>
                   <label for="treatmentDuration" class="form-label">Czas trwania</label>
-                  <span class="ms-1 border border-2 bg-light" *ngIf="treatment.duration">{{treatment.duration}} minut</span>
+                  <span class="ms-1 border border-2 bg-light" *ngIf="treatment.duration">{{treatment.duration}}
+                    minut</span>
                   <input name="treatmentDuration"
                          id="treatmentDuration"
                          type="range"
@@ -195,6 +196,9 @@
                     <div class="col d-flex justify-content-end">
                       <button type="submit" class="btn btn-primary">Gotowe</button>
                     </div>
+                  </div>
+                  <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+                    {{errorMessage}}
                   </div>
                 </form>
               </div>
@@ -253,15 +257,15 @@
                       [(ngModel)]="treatment.description"
                       required
                       minlength="2"
-                      maxlength="500"
+                      maxlength="1000"
                       #editTreatmentDescription="ngModel"
                       [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentDescription.errors }"
                     ></textarea>
                     <div *ngIf="editTreatmentDescription.errors && formET.submitted" class="invalid-feedback">
                       <div *ngIf="editTreatmentDescription.errors['required']">Nazwa jest wymagana.</div>
-                      <div *ngIf="editTreatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      <div *ngIf="editTreatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 1000 znaków.
                       </div>
-                      <div *ngIf="editTreatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 500 znaków.
+                      <div *ngIf="editTreatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 1000 znaków.
                       </div>
                     </div>
                   </div>
@@ -287,7 +291,8 @@
                     </div>
                   </div>
                   <label for="treatmentDuration" class="form-label">Czas trwania</label>
-                  <span class="ms-1 border border-2 bg-light" *ngIf="treatment.duration">{{durationToMinutes(treatment)}}
+                  <span class="ms-1 border border-2 bg-light"
+                        *ngIf="treatment.duration">{{durationToMinutes(treatment)}}
                     minut</span>
                   <input name="editTreatmentDuration"
                          id="editTreatmentDuration"
@@ -322,6 +327,9 @@
                     <div class="col d-flex justify-content-end">
                       <button type="submit" class="btn btn-primary">Gotowe</button>
                     </div>
+                  </div>
+                  <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+                    {{errorMessage}}
                   </div>
                 </form>
               </div>
@@ -442,6 +450,9 @@
                       <button type="submit" class="btn btn-primary">Gotowe</button>
                     </div>
                   </div>
+                  <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+                    {{errorMessage}}
+                  </div>
                 </form>
               </div>
             </div>
@@ -492,6 +503,9 @@
                     <div class="col d-flex justify-content-end">
                       <button type="submit" class="btn btn-primary">Gotowe</button>
                     </div>
+                  </div>
+                  <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+                    {{errorMessage}}
                   </div>
                 </form>
               </div>
