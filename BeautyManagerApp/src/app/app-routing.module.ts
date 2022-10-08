@@ -14,6 +14,8 @@ import {UserListComponent} from "./admin-components/user-list/user-list.componen
 import {TreatmentsPanelComponent} from "./admin-components/treatments-panel/treatments-panel.component";
 import {TreatmentDetailsComponent} from "./admin-components/treatment-details/treatment-details.component";
 import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
+import {VisitListComponent} from "./admin-components/visit-list/visit-list.component";
+import {VisitAddComponent} from "./admin-components/visit-add/visit-add.component";
 
 const appTitle = 'Beauty & SPA';
 
@@ -25,6 +27,8 @@ const routes: Routes = [
   {path: 'profil', title: `Profil - ${appTitle}`, component: ProfileComponent},
   {path: 'user', title: `Panel użytkownika - ${appTitle}`, component: BoardUserComponent},
   {path: 'admin', title: `Panel admina - ${appTitle}`, component: BoardAdminComponent, children: [
+    {path: 'wizyty', title: `Wiztyty - ${appTitle}`, component: VisitListComponent},
+    {path: 'wizyty/dodaj', title: `Dodaj wizytę - ${appTitle}`, component: VisitAddComponent},
     {path: 'klienci', title: `Klienci - ${appTitle}`, component: ClientListComponent},
     {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
     {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},

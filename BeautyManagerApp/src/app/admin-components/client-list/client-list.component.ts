@@ -3,6 +3,7 @@ import {Client} from "../../_services/client/client";
 import {ClientService} from "../../_services/client/client.service";
 import {Router} from "@angular/router";
 
+
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -39,7 +40,7 @@ export class ClientListComponent implements OnInit {
   getAllClients(): void {
     const params = this.getRequestParams(this.page, this.pageSize);
 
-    this.clientService.findAll(params).subscribe(response => {
+    this.clientService.findAllPages(params).subscribe(response => {
       const {content, totalElements} = response;
       this.clients = content;
       this.count = totalElements;
@@ -80,8 +81,12 @@ export class ClientListComponent implements OnInit {
   }
 
   deleteClientById(id: number) {
-    this.clientService.delete(id).subscribe();
-    this.reload();
+    this.clientService.delete(id).subscribe(response => {
+      console.log(response);
+      this.reload();
+    }, error => {
+      alert("Nie można usunąć tego klienta.");
+    });
   }
 
   reload() {

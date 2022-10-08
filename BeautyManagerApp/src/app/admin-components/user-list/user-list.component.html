@@ -99,25 +99,25 @@
                   #f="ngForm"
                   novalidate
                 >
-                  <div class="form-group my-1">
-                    <label for="email">Email</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      name="email"
-                      id="email"
-                      placeholder="Pole pozostanie bez zmian"
-                      [(ngModel)]="user.email"
-                      email
-                      #email="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
-                    />
-                    <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
-                      <div *ngIf="email.errors['email']">
-                        Email jest niepoprawny.
-                      </div>
-                    </div>
-                  </div>
+<!--                  <div class="form-group my-1">-->
+<!--                    <label for="email">Email</label>-->
+<!--                    <input-->
+<!--                      type="email"-->
+<!--                      class="form-control"-->
+<!--                      name="email"-->
+<!--                      id="email"-->
+<!--                      placeholder="Pole pozostanie bez zmian"-->
+<!--                      [(ngModel)]="user.email"-->
+<!--                      email-->
+<!--                      #email="ngModel"-->
+<!--                      [ngClass]="{ 'is-invalid': f.submitted && email.errors }"-->
+<!--                    />-->
+<!--                    <div class="invalid-feedback" *ngIf="email.errors && f.submitted">-->
+<!--                      <div *ngIf="email.errors['email']">-->
+<!--                        Email jest niepoprawny.-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
                   <div class="form-group my-1">
                     <label for="password">Hasło</label>
                     <input
@@ -196,6 +196,9 @@
                     <div class="col d-flex justify-content-end">
                       <button type="submit" class="btn btn-primary">Gotowe</button>
                     </div>
+                  </div>
+                  <div *ngIf="errorMessage" class="alert alert-danger m-2" role="alert">
+                    {{errorMessage}}
                   </div>
                 </form>
               </div>

@@ -13,17 +13,17 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
   user: User = new User();
   actualUserId!: number;
-
+  errorMessage: string = '';
   //Pagination params
   page = 1;
   count = 0;
   pageSize = 10;
-  pageSizes = [10, 5, 20];
 
+  pageSizes = [10, 5, 20];
   //Delete confirmation popover
   popoverTitle = 'Potwierdzenie';
-  cancelClicked = false;
 
+  cancelClicked = false;
   //Close buttons for modals
   @ViewChild("closeCreateModalButton") closeCMButton: any;
   @ViewChild("closeDeleteModalButton") closeDMButton: any;
@@ -80,9 +80,9 @@ export class UserListComponent implements OnInit {
     this.user.id = this.actualUserId;
     this.userService.patch(this.user).subscribe(response => {
       console.log(response);
+      this.closeEMButton.nativeElement.click();
+      this.reload();
     })
-    this.closeEMButton.nativeElement.click();
-    this.reload();
   }
 
   deleteUserById(id: number) {

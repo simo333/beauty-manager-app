@@ -23,7 +23,6 @@ export class AppComponent {
               private eventBusService: EventBusService) { }
 
   ngOnInit(): void {
-    console.log("AppComponent INIT");
     this.isLoggedIn = this.storageService.isLoggedIn();
 
     if (this.isLoggedIn) {

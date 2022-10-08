@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -9,7 +8,6 @@ import {HomeComponent} from './home/home.component';
 import {ProfileComponent} from './profile/profile.component';
 import {BoardAdminComponent} from './admin-components/board-admin/board-admin.component';
 import {BoardUserComponent} from './board-user/board-user.component';
-import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 
 import {httpInterceptorProviders} from './_helpers/http.interceptor';
@@ -29,6 +27,15 @@ import {TreatmentService} from "./_services/treatment/treatment.service";
 import { TreatmentDetailsComponent } from './admin-components/treatment-details/treatment-details.component';
 import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
 import { VisitListComponent } from './admin-components/visit-list/visit-list.component';
+import {VisitService} from "./_services/visits/visit.service";
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { VisitAddComponent } from './admin-components/visit-add/visit-add.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FormsModule} from "@angular/forms";
+import {BrowserModule} from "@angular/platform-browser";
+import {NgxDaterangepickerMd} from "ngx-datepicker-material";
+import {MatInputModule} from "@angular/material/input";
+
 
 @NgModule({
   declarations: [
@@ -47,7 +54,8 @@ import { VisitListComponent } from './admin-components/visit-list/visit-list.com
     TreatmentsPanelComponent,
     TreatmentDetailsComponent,
     TreatmentInfoComponent,
-    VisitListComponent
+    VisitListComponent,
+    VisitAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,14 +64,19 @@ import { VisitListComponent } from './admin-components/visit-list/visit-list.com
     HttpClientModule,
     NgxPaginationModule,
     NgbModule,
-    ConfirmationPopoverModule.forRoot({confirmButtonType: 'danger'})
+    ConfirmationPopoverModule.forRoot({confirmButtonType: 'danger'}),
+    NgxMaterialTimepickerModule,
+    BrowserAnimationsModule,
+    NgxDaterangepickerMd,
+    MatInputModule,
   ],
   providers: [
     httpInterceptorProviders,
     ClientService,
     UserService,
     TreatmentCategoryService,
-    TreatmentService
+    TreatmentService,
+    VisitService
   ],
   bootstrap: [AppComponent]
 })

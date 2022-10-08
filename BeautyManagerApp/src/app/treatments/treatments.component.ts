@@ -7,6 +7,7 @@ import {TreatmentCategoryService} from "../_services/treatment-category/Treatmen
 import {Router} from "@angular/router";
 
 
+
 @Component({
   selector: 'app-treatments',
   templateUrl: './treatments.component.html',
@@ -45,7 +46,7 @@ export class TreatmentsComponent implements OnInit {
         console.log("All categories", this.treatments);
       });
     } else {
-      this.treatmentService.findAllByCategory(this.categoryVal.id, params).subscribe(response => {
+      this.treatmentService.findPageByCategory(this.categoryVal.id, params).subscribe(response => {
         const {content, totalElements} = response;
         this.treatments = content;
         this.count = totalElements;
@@ -101,12 +102,7 @@ export class TreatmentsComponent implements OnInit {
   selectionChange() {
     this.page = 1;
     this.treatmentService.category = this.categoryVal;
-    this.reloadPage();
+    this.getAllTreatments();
   }
 
-  reloadPage() {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['/zabiegi']);
-  }
 }

@@ -34,6 +34,8 @@ export class TreatmentsPanelComponent implements OnInit {
   popoverTitle = 'Potwierdzenie';
   cancelClicked = false;
 
+  errorMessage: string = "";
+
   // Close buttons for modals
   // For categories
   @ViewChild("closeCreateModalButton") closeCMButton: any;
@@ -44,16 +46,17 @@ export class TreatmentsPanelComponent implements OnInit {
   @ViewChild("closeDMTreatmentButton") closeDMTreatmentButton: any;
   @ViewChild("closeEMTreatmentButton") closeEMTreatmentButton!: any;
 
-
   constructor(private categoryService: TreatmentCategoryService,
               private treatmentService: TreatmentService,
               private router: Router) {
+    this.errorMessage = "";
   }
 
   ngOnInit(): void {
     this.getAllTreatments();
     this.getAllCategoriesInPages();
     this.getAllCategories();
+    this.errorMessage = ""
   }
 
   /* Treatments */
@@ -84,22 +87,27 @@ export class TreatmentsPanelComponent implements OnInit {
 
   renewTreatment() {
     this.treatment = new Treatment();
+    this.errorMessage = "";
   }
 
   createTreatment() {
     this.treatmentService.save(this.treatment).subscribe(response => {
       console.log(response);
+      this.closeCMTreatmentButton.nativeElement.click();
+      this.reload();
+    }, error => {
+      this.errorMessage = error.error.message;
     });
-    this.closeCMTreatmentButton.nativeElement.click();
-    this.reload();
   }
 
   editTreatment() {
     this.treatmentService.edit(this.treatment).subscribe(response => {
       console.log(response);
-    })
-    this.closeEMTreatmentButton.nativeElement.click();
-    this.reload();
+      this.closeEMTreatmentButton.nativeElement.click();
+      this.reload();
+    }, error => {
+      this.errorMessage = error.error.message;
+    });
   }
 
   deleteTreatmentById(id: number) {
@@ -140,27 +148,37 @@ export class TreatmentsPanelComponent implements OnInit {
 
   renewCategory() {
     this.category = new TreatmentCategory();
+    this.errorMessage = "";
   }
 
   createCategory() {
     this.categoryService.save(this.category).subscribe(response => {
-      console.log(response);
+      console.log("response", response);
+      this.closeCMButton.nativeElement.click();
+      this.reload();
+    }, error => {
+      this.errorMessage = error.error.message;
     });
-    this.closeCMButton.nativeElement.click();
-    this.reload();
+
   }
 
   editCategory() {
     this.categoryService.edit(this.category).subscribe(response => {
       console.log(response);
+      this.closeEMButton.nativeElement.click();
+      this.reload();
+    }, error => {
+      this.errorMessage = error.error.message;
     });
-    this.closeEMButton.nativeElement.click();
-    this.reload();
   }
 
   deleteCategoryById(id: number) {
-    this.categoryService.delete(id).subscribe();
-    this.reload();
+    this.categoryService.delete(id).subscribe(response => {
+      console.log(response);
+      this.reload();
+    }, () => {
+      alert("Nie można usunąć tej kategorii.");
+    })
   }
 
   reload() {
@@ -207,8 +225,8 @@ export class TreatmentsPanelComponent implements OnInit {
 
   durationToMinutes(treatment: Treatment) {
     let time;
-    if(isNaN(Number(treatment.duration))) {
-      time =  Duration.parse(treatment.duration.toString());
+    if (isNaN(Number(treatment.duration))) {
+      time = Duration.parse(treatment.duration.toString());
     } else {
       time = Duration.ofMinutes(Number(treatment.duration));
     }
