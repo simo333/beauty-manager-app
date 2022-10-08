@@ -33,7 +33,7 @@
               <div *ngIf="visitClient.errors['required']">Klient jest wymagany.</div>
             </div>
             <div *ngIf="visit.client">
-              <label for="category">Wybierz kategorię:</label>
+              <label for="category">Wybierz rodzaj zabiegu:</label>
               <select class="form-select"
                       name="category"
                       id="category"
@@ -66,38 +66,6 @@
               </div>
             </div>
             <div *ngIf="visit.treatment">
-              <!--            <label for="date">Wybierz datę:</label>-->
-              <!--            <ngb-datepicker #datepicker-->
-              <!--                            id="date"-->
-              <!--                            name="date"-->
-              <!--                            [minDate]="minDate"-->
-              <!--                            [(ngModel)]="dateStruct"-->
-              <!--                            [startDate]="getToday()"-->
-              <!--                            [displayMonths]="2"-->
-              <!--                            (navigate)="date = $event.next"-->
-              <!--                            (click)="show()"-->
-              <!--                            #dateStamp="ngModel"-->
-              <!--                            [ngClass]="{ 'is-invalid': f.submitted && dateStamp.errors }"-->
-              <!--                            required-->
-              <!--            >-->
-              <!--            </ngb-datepicker>-->
-              <!--            <div *ngIf="dateStamp.errors && f.submitted" class="invalid-feedback">-->
-              <!--              <div *ngIf="dateStamp.errors['required']">Data jest wymagana.</div>-->
-              <!--            </div>-->
-              <!--              <label for="time">Wybierz czas:</label>-->
-              <!--              <ngb-timepicker name="time"-->
-              <!--                              id="time"-->
-              <!--                              [(ngModel)]="time"-->
-              <!--                              required-->
-              <!--                              [minuteStep]="30"-->
-              <!--                              [readonlyInputs]="true"-->
-              <!--                              #timeStamp="ngModel"-->
-              <!--                              [ngClass]="{ 'is-invalid': f.submitted && timeStamp.errors }">-->
-
-              <!--              </ngb-timepicker>-->
-              <!--              <div *ngIf="timeStamp.errors && f.submitted" class="invalid-feedback">-->
-              <!--                <div *ngIf="timeStamp.errors['required']">Czas jest wymagany.</div>-->
-              <!--              </div>-->
               <div>
                 <label for="date"> Wybierz dzień wizyty:</label>
                 <input type="text"

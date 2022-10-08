@@ -16,6 +16,7 @@ import {TreatmentDetailsComponent} from "./admin-components/treatment-details/tr
 import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
 import {VisitListComponent} from "./admin-components/visit-list/visit-list.component";
 import {VisitAddComponent} from "./admin-components/visit-add/visit-add.component";
+import {ClientAddVisitComponent} from "./client-add-visit/client-add-visit.component";
 
 const appTitle = 'Beauty & SPA';
 
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: 'o-nas', title: `O nas - ${appTitle}`, component: AboutComponent},
   {path: 'zabiegi', title: `Zabiegi - ${appTitle}`,  component: TreatmentsComponent},
   {path: 'zabiegi/:id', title: `Zabieg - ${appTitle}`, component: TreatmentInfoComponent},
+  {path: 'zamow-wizyte', title: `Zamów wizytę - ${appTitle}`, component: ClientAddVisitComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
