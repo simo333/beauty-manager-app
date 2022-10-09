@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TreatmentService} from "../_services/treatment/treatment.service";
 import {Treatment} from "../_services/treatment/treatment";
 import {Duration} from "@js-joda/core";
 import {TreatmentCategory} from "../_services/treatment-category/TreatmentCategory";
 import {TreatmentCategoryService} from "../_services/treatment-category/TreatmentCategory.service";
 import {Router} from "@angular/router";
-
 
 
 @Component({
@@ -27,7 +26,8 @@ export class TreatmentsComponent implements OnInit {
 
   constructor(private treatmentService: TreatmentService,
               private categoryService: TreatmentCategoryService,
-              private router:Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.getAllTreatments();
@@ -38,7 +38,7 @@ export class TreatmentsComponent implements OnInit {
   getAllTreatments(): void {
     const params = this.getRequestParams(this.page, this.pageSize);
 
-    if(this.categoryVal.name === undefined) {
+    if (this.categoryVal.name === undefined) {
       this.treatmentService.findAll(params).subscribe(response => {
         const {content, totalElements} = response;
         this.treatments = content;
@@ -91,8 +91,8 @@ export class TreatmentsComponent implements OnInit {
 
   durationToMinutes(treatment: Treatment) {
     let time;
-    if(isNaN(Number(treatment.duration))) {
-      time =  Duration.parse(treatment.duration.toString());
+    if (isNaN(Number(treatment.duration))) {
+      time = Duration.parse(treatment.duration.toString());
     } else {
       time = Duration.ofMinutes(Number(treatment.duration));
     }

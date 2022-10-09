@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
 import {StorageService} from "../_services/storage.service";
 import {ActivatedRoute} from "@angular/router";
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private storageService: StorageService,
-              private params: ActivatedRoute) {}
+              private params: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.params.paramMap.subscribe(params => {
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    const { email, password } = this.form;
+    const {email, password} = this.form;
 
     this.authService.login(email, password).subscribe({
       next: data => {

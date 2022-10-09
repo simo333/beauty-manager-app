@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {Client} from "./client";
 
@@ -36,11 +36,11 @@ export class ClientService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    if(error.status === 400) {
+    if (error.status === 400) {
       console.log('Error code 400', error.error);
-    } else if(error.status === 404) {
+    } else if (error.status === 404) {
       console.log('Error code 404', error.error);
-    } else if(error.status === 500) {
+    } else if (error.status === 500) {
       console.log('Error code 500', error.error);
     }
     return throwError(() => new Error('Error' + error.error));

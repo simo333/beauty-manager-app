@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from "../../_services/users/user";
 import {Router} from "@angular/router";
 import {UserService} from "../../_services/users/user.service";
-import {Role} from "../../_services/users/role";
 
 @Component({
   selector: 'app-user-list',

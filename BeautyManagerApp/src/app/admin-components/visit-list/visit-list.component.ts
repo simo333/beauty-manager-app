@@ -61,14 +61,6 @@ export class VisitListComponent implements OnInit {
     this.visit = new Visit();
   }
 
-  // editVisit() {
-  //   this.visitService.edit(this.visit).subscribe(response => {
-  //     console.log(response);
-  //   })
-  //   this.closeEMButton.nativeElement.click();
-  //   this.reload();
-  // }
-
   deleteVisitById(id: number) {
     this.visitService.delete(id).subscribe();
     this.reload();
