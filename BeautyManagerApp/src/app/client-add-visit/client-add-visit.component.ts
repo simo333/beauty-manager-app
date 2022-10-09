@@ -14,7 +14,6 @@ import {NgxMaterialTimepickerTheme} from "ngx-material-timepicker";
 import {StorageService} from "../_services/storage.service";
 import {ClientService} from "../_services/client/client.service";
 import {UserService} from "../_services/users/user.service";
-import {log} from "util";
 
 @Component({
   selector: 'app-client-add-visit',
@@ -125,7 +124,11 @@ export class ClientAddVisitComponent implements OnInit {
   invalidDates: Moment[] = []
   isInvalidDate = (m: moment.Moment): boolean => {
     // this.invalidDates.push(moment().add(3, 'days'))
-    return this.invalidDates.some((d) => d.isSame(m, 'day'));
+    let saturday = new Date(2022, 10, 8);
+    let sunday = new Date(2022, 10, 9);
+    this.invalidDates.push(moment(saturday));
+    this.invalidDates.push(moment(sunday));
+    return this.invalidDates.some((d) => d.isSame(m.weekday()));
   };
 
   @ViewChild('openModalButton') openModalBtn!: any;
