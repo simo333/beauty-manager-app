@@ -22,8 +22,6 @@ import {UserService} from "../_services/users/user.service";
 })
 export class ClientAddVisitComponent implements OnInit {
   visit: Visit = new Visit();
-  nextFreeDate = "";
-  isBusy = false;
 
   treatments: Treatment[] = [];
 
@@ -51,7 +49,6 @@ export class ClientAddVisitComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    moment.locale('pl');
     this.getCategories();
     this.visit.client = new Client();
     this.isLoggedIn = this.storage.isLoggedIn();
@@ -66,17 +63,16 @@ export class ClientAddVisitComponent implements OnInit {
     let minute = Number(this.selectedTime.substring(3));
     let date = new Date(year, month, day, hour, minute, 0);
     this.visit.dateTime = date;
-    console.log(this.visit.dateTime);
     this.visitService.save(this.visit).subscribe(response => {
-      console.log(response);
+      console.log("visit service", response);
       this.openModal();
     }, error => {
-      console.log(error);
-      let date = new Date(error.error.message);
-      console.log(date);
-      let nextFreeDate = moment(error.error.message).add(2, 'hour');
-      console.log(nextFreeDate);
-      this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+      if (error.error.message === null) {
+        this.errorMessage = "Brak wolnych terminów o podanej godzinie.";
+      } else {
+        let nextFreeDate = moment(error.error.message);
+        this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+      }
     });
   }
 
@@ -86,7 +82,6 @@ export class ClientAddVisitComponent implements OnInit {
         let loggedUser = response;
         this.visit.client = loggedUser.client;
       })
-
     }
   }
 
@@ -125,14 +120,10 @@ export class ClientAddVisitComponent implements OnInit {
   }
 
   invalidDates: Moment[] = []
-  isInvalidDate = (m: moment.Moment): boolean => {
-    // this.invalidDates.push(moment().add(3, 'days'))
-    let saturday = new Date(2022, 10, 8);
-    let sunday = new Date(2022, 10, 9);
-    this.invalidDates.push(moment(saturday));
-    this.invalidDates.push(moment(sunday));
-    return this.invalidDates.some((d) => d.isSame(m.weekday()));
-  };
+  // isInvalidDate = (m: moment.Moment): boolean => {
+  // this.invalidDates.push(moment().add(3, 'days'))
+  // return this.invalidDates.some((d) => d.isSame(m.weekday()));
+  // };
 
   @ViewChild('openModalButton') openModalBtn!: any;
 
