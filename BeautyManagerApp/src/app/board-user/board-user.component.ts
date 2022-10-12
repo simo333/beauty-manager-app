@@ -3,8 +3,8 @@ import {StorageService} from "../_services/storage.service";
 import {ClientService} from "../_services/client/client.service";
 import {UserService} from "../_services/users/user.service";
 import {User} from "../_services/users/user";
-import {Visit} from "../_services/visits/visit";
-import {VisitService} from "../_services/visits/visit.service";
+import {Appointment} from "../_services/appointments/appointment";
+import {AppointmentService} from "../_services/appointments/appointment.service";
 import * as moment from "moment";
 
 @Component({
@@ -16,7 +16,7 @@ import * as moment from "moment";
 export class BoardUserComponent implements OnInit {
   isUser: boolean = false;
   user: User = new User();
-  visits: Visit[] = [];
+  visits: Appointment[] = [];
 
   // Pagination params
   page = 1;
@@ -27,7 +27,7 @@ export class BoardUserComponent implements OnInit {
   constructor(private storage: StorageService,
               private clientService: ClientService,
               private userService: UserService,
-              private visitService: VisitService) {
+              private visitService: AppointmentService) {
   }
 
   ngOnInit(): void {

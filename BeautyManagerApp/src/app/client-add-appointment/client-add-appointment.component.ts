@@ -1,36 +1,32 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Treatment} from "../../_services/treatment/treatment";
-import {TreatmentCategory} from "../../_services/treatment-category/TreatmentCategory";
-import {Visit} from "../../_services/visits/visit";
-import {VisitService} from "../../_services/visits/visit.service";
-
-import {TreatmentService} from "../../_services/treatment/treatment.service";
-import {TreatmentCategoryService} from "../../_services/treatment-category/TreatmentCategory.service";
-import {Router} from "@angular/router";
-import * as moment from "moment";
+import {Appointment} from "../_services/appointments/appointment";
+import {Treatment} from "../_services/treatment/treatment";
+import {TreatmentCategory} from "../_services/treatment-category/TreatmentCategory";
+import {Client} from "../_services/client/client";
 import {Moment} from "moment";
+import {AppointmentService} from "../_services/appointments/appointment.service";
+import {Router} from "@angular/router";
+import {TreatmentService} from "../_services/treatment/treatment.service";
+import {TreatmentCategoryService} from "../_services/treatment-category/TreatmentCategory.service";
+import * as moment from "moment/moment";
 import {Duration} from "@js-joda/core";
 import {NgxMaterialTimepickerTheme} from "ngx-material-timepicker";
-import {ClientService} from "../../_services/client/client.service";
-import {Client} from "../../_services/client/client";
+import {StorageService} from "../_services/storage.service";
+import {ClientService} from "../_services/client/client.service";
+import {UserService} from "../_services/users/user.service";
 
 @Component({
-  selector: 'app-visit-add',
-  templateUrl: './visit-add.component.html',
-  styleUrls: ['./visit-add.component.css']
+  selector: 'app-client-add-visit',
+  templateUrl: './client-add-appointment.component.html',
+  styleUrls: ['./client-add-appointment.component.css']
 })
-export class VisitAddComponent implements OnInit {
-  visit: Visit = new Visit();
-  nextFreeDate = "";
-  isBusy = false;
+export class ClientAddAppointmentComponent implements OnInit {
+  visit: Appointment = new Appointment();
 
   treatments: Treatment[] = [];
 
   categories: TreatmentCategory[] = [];
   category!: TreatmentCategory;
-
-  clients: Client[] = [];
-  client!: Client;
 
   // DatePicker
   date!: { year: number, month: number };
@@ -38,20 +34,25 @@ export class VisitAddComponent implements OnInit {
   maxDate: Moment;
   selectedDate!: { startDate: Moment };
   selectedTime!: string;
+  isLoggedIn = false;
   errorMessage: string = '';
 
-  constructor(private visitService: VisitService, private router: Router,
+  constructor(private visitService: AppointmentService, private router: Router,
               private treatmentService: TreatmentService,
               private categoryService: TreatmentCategoryService,
-              private clientService: ClientService) {
+              private storage: StorageService,
+              private clientService: ClientService,
+              private userService: UserService) {
     this.minDate = moment(Date.now()).add(1, 'day');
     this.maxDate = moment(Date.now()).add(50, 'day');
     moment.locale('pl');
   }
 
   ngOnInit(): void {
-    this.getClients()
     this.getCategories();
+    this.visit.client = new Client();
+    this.isLoggedIn = this.storage.isLoggedIn();
+    this.setClientIfLoggedIn();
   }
 
   createVisit() {
@@ -63,23 +64,25 @@ export class VisitAddComponent implements OnInit {
     let date = new Date(year, month, day, hour, minute, 0);
     this.visit.dateTime = date;
     this.visitService.save(this.visit).subscribe(response => {
+      console.log("visit service", response);
       this.openModal();
-      console.log(response);
     }, error => {
-      let nextFreeDate = moment(error.error.message).add(2, 'hour');
-      console.log(nextFreeDate);
-      this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+      if (error.error.message === null) {
+        this.errorMessage = "Brak wolnych terminów o podanej godzinie.";
+      } else {
+        let nextFreeDate = moment(error.error.message);
+        this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+      }
     });
   }
 
-  checkFreeBusy(visit: Visit) {
-    this.visitService.freeBusy(visit).subscribe(response => {
-      const {busy, nextFreeDate} = response;
-      this.isBusy = busy;
-      this.nextFreeDate = nextFreeDate;
-      console.log(this.isBusy);
-      console.log(this.nextFreeDate);
-    });
+  setClientIfLoggedIn() {
+    if (this.isLoggedIn) {
+      this.userService.findOneByEmail(this.storage.getUser().email).subscribe(response => {
+        let loggedUser = response;
+        this.visit.client = loggedUser.client;
+      })
+    }
   }
 
   // Treatments
@@ -98,21 +101,12 @@ export class VisitAddComponent implements OnInit {
     });
   }
 
-  // Clients
-  getClients(): void {
-    this.clientService.findAll().subscribe(response => {
-      this.clients = response;
-      console.log("Client service", response);
-    });
-  }
-
   reload() {
     window.location.reload();
   }
 
   categorySelectionChange() {
     this.getTreatmentsByCategory(this.category.id);
-    console.log("found treatments", this.treatments)
   }
 
   durationToMinutes(treatment: Treatment) {
@@ -125,10 +119,20 @@ export class VisitAddComponent implements OnInit {
     return time.toMinutes();
   }
 
+  invalidDates: Moment[] = []
+  // isInvalidDate = (m: moment.Moment): boolean => {
+  // this.invalidDates.push(moment().add(3, 'days'))
+  // return this.invalidDates.some((d) => d.isSame(m.weekday()));
+  // };
+
   @ViewChild('openModalButton') openModalBtn!: any;
 
   openModal() {
     this.openModalBtn.nativeElement.click();
+  }
+
+  onModalClose() {
+    this.router.navigate(['/home']);
   }
 
   darkTheme: NgxMaterialTimepickerTheme = {
@@ -145,4 +149,5 @@ export class VisitAddComponent implements OnInit {
       clockFaceTimeInactiveColor: '#fff'
     }
   };
+
 }

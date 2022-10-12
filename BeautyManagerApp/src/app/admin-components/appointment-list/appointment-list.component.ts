@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {Visit} from "../../_services/visits/visit";
-import {VisitService} from "../../_services/visits/visit.service";
+import {Appointment} from "../../_services/appointments/appointment";
+import {AppointmentService} from "../../_services/appointments/appointment.service";
 import {Router} from "@angular/router";
 import * as moment from "moment/moment";
 
 @Component({
   selector: 'app-visit-list',
-  templateUrl: './visit-list.component.html',
-  styleUrls: ['./visit-list.component.css']
+  templateUrl: './appointment-list.component.html',
+  styleUrls: ['./appointment-list.component.css']
 })
-export class VisitListComponent implements OnInit {
-  visit: Visit = new Visit();
-  visits: Visit[] = [];
+export class AppointmentListComponent implements OnInit {
+  visit: Appointment = new Appointment();
+  visits: Appointment[] = [];
 
   // Pagination params
   page = 1;
@@ -24,7 +24,7 @@ export class VisitListComponent implements OnInit {
   cancelClicked = false;
 
 
-  constructor(private visitService: VisitService, private router: Router) {
+  constructor(private visitService: AppointmentService, private router: Router) {
     moment.locale('pl');
   }
 
@@ -49,7 +49,7 @@ export class VisitListComponent implements OnInit {
     this.router.navigate(["/admin/klient", id]);  //TODO refactor address
   }
 
-  getVisit(id: number): Visit {
+  getVisit(id: number): Appointment {
     this.visitService.findOne(id).subscribe(response => {
       this.visit = response;
       console.log("Actual visit ", this.visit.id);
@@ -58,7 +58,7 @@ export class VisitListComponent implements OnInit {
   }
 
   renewVisit() {
-    this.visit = new Visit();
+    this.visit = new Appointment();
   }
 
   deleteVisitById(id: number) {

@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Client} from "../../_services/client/client";
 import {ClientService} from "../../_services/client/client.service";
 import {ActivatedRoute} from "@angular/router";
-import {Visit} from "../../_services/visits/visit";
+import {Appointment} from "../../_services/appointments/appointment";
 import * as moment from "moment/moment";
-import {VisitService} from "../../_services/visits/visit.service";
+import {AppointmentService} from "../../_services/appointments/appointment.service";
 
 @Component({
   selector: 'app-client-details',
@@ -13,7 +13,7 @@ import {VisitService} from "../../_services/visits/visit.service";
 })
 export class ClientDetailsComponent implements OnInit {
   client: Client = new Client();
-  visits: Visit[] = [];
+  visits: Appointment[] = [];
 
   // Pagination params
   page = 1;
@@ -23,7 +23,7 @@ export class ClientDetailsComponent implements OnInit {
 
   constructor(private clientService: ClientService,
               private activeRoute: ActivatedRoute,
-              private visitService: VisitService) {
+              private visitService: AppointmentService) {
   }
 
   ngOnInit(): void {
