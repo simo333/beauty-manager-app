@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Treatment} from "../../_services/treatment/treatment";
 import {TreatmentCategory} from "../../_services/treatment-category/TreatmentCategory";
-import {Visit} from "../../_services/visits/visit";
-import {VisitService} from "../../_services/visits/visit.service";
+import {Appointment} from "../../_services/appointments/appointment";
+import {AppointmentService} from "../../_services/appointments/appointment.service";
 
 import {TreatmentService} from "../../_services/treatment/treatment.service";
 import {TreatmentCategoryService} from "../../_services/treatment-category/TreatmentCategory.service";
@@ -15,12 +15,12 @@ import {ClientService} from "../../_services/client/client.service";
 import {Client} from "../../_services/client/client";
 
 @Component({
-  selector: 'app-visit-add',
-  templateUrl: './visit-add.component.html',
-  styleUrls: ['./visit-add.component.css']
+  selector: 'app-appointment-add',
+  templateUrl: './appointment-add.component.html',
+  styleUrls: ['./appointment-add.component.css']
 })
-export class VisitAddComponent implements OnInit {
-  visit: Visit = new Visit();
+export class AppointmentAddComponent implements OnInit {
+  appointment: Appointment = new Appointment();
   nextFreeDate = "";
   isBusy = false;
 
@@ -40,7 +40,7 @@ export class VisitAddComponent implements OnInit {
   selectedTime!: string;
   errorMessage: string = '';
 
-  constructor(private visitService: VisitService, private router: Router,
+  constructor(private appointmentService: AppointmentService, private router: Router,
               private treatmentService: TreatmentService,
               private categoryService: TreatmentCategoryService,
               private clientService: ClientService) {
@@ -54,15 +54,15 @@ export class VisitAddComponent implements OnInit {
     this.getCategories();
   }
 
-  createVisit() {
+  createAppointment() {
     let year = this.selectedDate.startDate.year();
     let month = this.selectedDate.startDate.month();
     let day = this.selectedDate.startDate.date();
     let hour = Number(this.selectedTime.substring(0, 2));
     let minute = Number(this.selectedTime.substring(3));
     let date = new Date(year, month, day, hour, minute, 0);
-    this.visit.dateTime = date;
-    this.visitService.save(this.visit).subscribe(response => {
+    this.appointment.dateTime = date;
+    this.appointmentService.save(this.appointment).subscribe(response => {
       this.openModal();
       console.log(response);
     }, error => {
@@ -72,8 +72,8 @@ export class VisitAddComponent implements OnInit {
     });
   }
 
-  checkFreeBusy(visit: Visit) {
-    this.visitService.freeBusy(visit).subscribe(response => {
+  checkFreeBusy(appointment: Appointment) {
+    this.appointmentService.freeBusy(appointment).subscribe(response => {
       const {busy, nextFreeDate} = response;
       this.isBusy = busy;
       this.nextFreeDate = nextFreeDate;
