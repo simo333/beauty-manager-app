@@ -27,21 +27,21 @@ export class BoardUserComponent implements OnInit {
   constructor(private storage: StorageService,
               private clientService: ClientService,
               private userService: UserService,
-              private visitService: AppointmentService) {
+              private appointmentService: AppointmentService) {
   }
 
   ngOnInit(): void {
     this.isUser = this.storage.isLoggedIn();
     this.userService.findOneByEmail(this.storage.getUser().email).subscribe(response => {
       this.user = response;
-      this.getAllVisits();
+      this.getAppointments();
     });
     moment.locale('pl');
   }
 
-  getAllVisits() {
+  getAppointments() {
     const params = this.getRequestParams(this.page, this.pageSize);
-    this.visitService.findAllByClient(this.user.client.id, params).subscribe(response => {
+    this.appointmentService.findAllByClient(this.user.client.id, params).subscribe(response => {
       const {content, totalElements} = response;
       this.visits = content;
       this.count = totalElements;
@@ -70,13 +70,13 @@ export class BoardUserComponent implements OnInit {
 
   handlePageChange(event: number): void {
     this.page = event;
-    this.getAllVisits();
+    this.getAppointments();
   }
 
   handlePageSizeChange(event: any): void {
     this.pageSize = event.target.value;
     this.page = 1;
-    this.getAllVisits();
+    this.getAppointments();
   }
 
 }
