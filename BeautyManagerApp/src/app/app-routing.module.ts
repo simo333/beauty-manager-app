@@ -18,7 +18,7 @@ import {VisitListComponent} from "./admin-components/visit-list/visit-list.compo
 import {VisitAddComponent} from "./admin-components/visit-add/visit-add.component";
 import {ClientAddVisitComponent} from "./client-add-visit/client-add-visit.component";
 
-const appTitle = 'Beauty & SPA';
+const appTitle = 'BeautyManagerApp';
 
 const routes: Routes = [
   {path: 'home', title: `${appTitle}`, component: HomeComponent},
@@ -27,18 +27,20 @@ const routes: Routes = [
   {path: 'rejestracja', title: `Rejestracja - ${appTitle}`, component: RegisterComponent},
   {path: 'profil', title: `Profil - ${appTitle}`, component: ProfileComponent},
   {path: 'user', title: `Panel użytkownika - ${appTitle}`, component: BoardUserComponent},
-  {path: 'admin', title: `Panel admina - ${appTitle}`, component: BoardAdminComponent, children: [
-    {path: 'wizyty', title: `Wiztyty - ${appTitle}`, component: VisitListComponent},
-    {path: 'wizyty/dodaj', title: `Dodaj wizytę - ${appTitle}`, component: VisitAddComponent},
-    {path: 'klienci', title: `Klienci - ${appTitle}`, component: ClientListComponent},
-    {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
-    {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},
-    {path: 'uzytkownik/:id', title: `Użytkownik - ${appTitle}`, component: ClientDetailsComponent}, //TODO CHANGE COMPONENT OR RESIGN USER DETAILS
-    {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsPanelComponent},
-    {path: 'zabieg/:id', title: `Zabieg - ${appTitle}`, component: TreatmentDetailsComponent},
-      ]},
+  {
+    path: 'admin', title: `Panel admina - ${appTitle}`, component: BoardAdminComponent, children: [
+      {path: 'wizyty', title: `Wiztyty - ${appTitle}`, component: VisitListComponent},
+      {path: 'wizyty/dodaj', title: `Dodaj wizytę - ${appTitle}`, component: VisitAddComponent},
+      {path: 'klienci', title: `Klienci - ${appTitle}`, component: ClientListComponent},
+      {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
+      {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},
+      {path: 'uzytkownik/:id', title: `Użytkownik - ${appTitle}`, component: ClientDetailsComponent}, //TODO CHANGE COMPONENT OR RESIGN USER DETAILS
+      {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsPanelComponent},
+      {path: 'zabieg/:id', title: `Zabieg - ${appTitle}`, component: TreatmentDetailsComponent},
+    ]
+  },
   {path: 'o-nas', title: `O nas - ${appTitle}`, component: AboutComponent},
-  {path: 'zabiegi', title: `Zabiegi - ${appTitle}`,  component: TreatmentsComponent},
+  {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsComponent},
   {path: 'zabiegi/:id', title: `Zabieg - ${appTitle}`, component: TreatmentInfoComponent},
   {path: 'zamow-wizyte', title: `Zamów wizytę - ${appTitle}`, component: ClientAddVisitComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}

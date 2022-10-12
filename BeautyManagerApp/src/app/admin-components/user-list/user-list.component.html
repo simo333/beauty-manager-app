@@ -36,20 +36,9 @@
                         data-bs-target="#edit-form-modal"
                         (click)="setActualUserId(user.id)"
                         title="Edytuj"
-                        >
+                >
                   <i class="bi bi-pencil-square"></i>
                 </button>
-<!--                <button class="btn btn-danger btn-sm text-white" mwlConfirmationPopover-->
-<!--                        [popoverMessage]="popoverTitle"-->
-<!--                        placement="left-top"-->
-<!--                        (confirm)="deleteUserById(user.id)"-->
-<!--                        (cancel)="cancelClicked=true"-->
-<!--                        confirmText="Usuń"-->
-<!--                        cancelText="Anuluj"-->
-<!--                        title="Usuń"-->
-<!--                >-->
-<!--                  <i class="bi bi-trash3-fill"></i>-->
-<!--                </button>-->
               </div>
             </td>
           </tr>
@@ -99,25 +88,6 @@
                   #f="ngForm"
                   novalidate
                 >
-<!--                  <div class="form-group my-1">-->
-<!--                    <label for="email">Email</label>-->
-<!--                    <input-->
-<!--                      type="email"-->
-<!--                      class="form-control"-->
-<!--                      name="email"-->
-<!--                      id="email"-->
-<!--                      placeholder="Pole pozostanie bez zmian"-->
-<!--                      [(ngModel)]="user.email"-->
-<!--                      email-->
-<!--                      #email="ngModel"-->
-<!--                      [ngClass]="{ 'is-invalid': f.submitted && email.errors }"-->
-<!--                    />-->
-<!--                    <div class="invalid-feedback" *ngIf="email.errors && f.submitted">-->
-<!--                      <div *ngIf="email.errors['email']">-->
-<!--                        Email jest niepoprawny.-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
                   <div class="form-group my-1">
                     <label for="password">Hasło</label>
                     <input
@@ -172,7 +142,8 @@
                     />
                     <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
                       <div *ngIf="lastName.errors['minlength']">Nazwisko musi składać się z conajmniej 2 znaków.</div>
-                      <div *ngIf="lastName.errors['maxlength']">Nazwisko musi składać się z maksymalnie 150 znaków.</div>
+                      <div *ngIf="lastName.errors['maxlength']">Nazwisko musi składać się z maksymalnie 150 znaków.
+                      </div>
                     </div>
                   </div>
                   <div class="form-group my-1">
@@ -189,7 +160,9 @@
                       [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }"
                     />
                     <div class="invalid-feedback" *ngIf="phoneNumber.errors && f.submitted">
-                      <div *ngIf="phoneNumber.errors['pattern']">Numer telefonu musi składać się ze znaku '+' i 11 cyfr.</div>
+                      <div *ngIf="phoneNumber.errors['pattern']">Numer telefonu musi składać się ze znaku '+' i 11
+                        cyfr.
+                      </div>
                     </div>
                   </div>
                   <div class="row">

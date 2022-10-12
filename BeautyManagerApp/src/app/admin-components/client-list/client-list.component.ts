@@ -84,7 +84,7 @@ export class ClientListComponent implements OnInit {
     this.clientService.delete(id).subscribe(response => {
       console.log(response);
       this.reload();
-    }, error => {
+    }, () => {
       alert("Nie można usunąć tego klienta.");
     });
   }

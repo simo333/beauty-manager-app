@@ -1,8 +1,7 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 import {Visit} from "./visit";
-import {catchError} from "rxjs/operators";
 
 const baseUrl = 'http://localhost:8080/api/visits';
 

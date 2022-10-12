@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "./_services/auth.service";
 import {StorageService} from "./_services/storage.service";
 import {Subscription} from "rxjs";
@@ -20,7 +20,8 @@ export class AppComponent {
 
   constructor(private storageService: StorageService,
               private authService: AuthService,
-              private eventBusService: EventBusService) { }
+              private eventBusService: EventBusService) {
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
