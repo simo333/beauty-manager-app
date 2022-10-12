@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {Visit} from "../../_services/visits/visit";
-import {VisitService} from "../../_services/visits/visit.service";
+import {Appointment} from "../../_services/appointments/appointment";
+import {AppointmentService} from "../../_services/appointments/appointment.service";
 import {Router} from "@angular/router";
 import * as moment from "moment/moment";
 
 @Component({
-  selector: 'app-visit-list',
-  templateUrl: './visit-list.component.html',
-  styleUrls: ['./visit-list.component.css']
+  selector: 'app-appointment-list',
+  templateUrl: './appointment-list.component.html',
+  styleUrls: ['./appointment-list.component.css']
 })
-export class VisitListComponent implements OnInit {
-  visit: Visit = new Visit();
-  visits: Visit[] = [];
+export class AppointmentListComponent implements OnInit {
+  appointment: Appointment = new Appointment();
+  appointments: Appointment[] = [];
 
   // Pagination params
   page = 1;
@@ -24,45 +24,45 @@ export class VisitListComponent implements OnInit {
   cancelClicked = false;
 
 
-  constructor(private visitService: VisitService, private router: Router) {
+  constructor(private appointmentService: AppointmentService, private router: Router) {
     moment.locale('pl');
   }
 
   ngOnInit(): void {
-    this.getAllVisits();
+    this.getAppointments();
   }
 
 
   //Get clients  with page number and page size params
-  getAllVisits(): void {
+  getAppointments(): void {
     const params = this.getRequestParams(this.page, this.pageSize);
 
-    this.visitService.findAll(params).subscribe(response => {
+    this.appointmentService.findAll(params).subscribe(response => {
       const {content, totalElements} = response;
-      this.visits = content;
+      this.appointments = content;
       this.count = totalElements;
       console.log(response);
     });
   }
 
-  routeToVisitDetails(id: number): void {
+  routeToAppointmentDetails(id: number): void {
     this.router.navigate(["/admin/klient", id]);  //TODO refactor address
   }
 
-  getVisit(id: number): Visit {
-    this.visitService.findOne(id).subscribe(response => {
-      this.visit = response;
-      console.log("Actual visit ", this.visit.id);
+  getAppointment(id: number): Appointment {
+    this.appointmentService.findOne(id).subscribe(response => {
+      this.appointment = response;
+      console.log("Actual appointment ", this.appointment.id);
     });
-    return this.visit;
+    return this.appointment;
   }
 
-  renewVisit() {
-    this.visit = new Visit();
+  renewAppointment() {
+    this.appointment = new Appointment();
   }
 
-  deleteVisitById(id: number) {
-    this.visitService.delete(id).subscribe();
+  deleteAppointmentById(id: number) {
+    this.appointmentService.delete(id).subscribe();
     this.reload();
   }
 
@@ -90,12 +90,12 @@ export class VisitListComponent implements OnInit {
 
   handlePageChange(event: number): void {
     this.page = event;
-    this.getAllVisits();
+    this.getAppointments();
   }
 
   handlePageSizeChange(event: any): void {
     this.pageSize = event.target.value;
     this.page = 1;
-    this.getAllVisits();
+    this.getAppointments();
   }
 }

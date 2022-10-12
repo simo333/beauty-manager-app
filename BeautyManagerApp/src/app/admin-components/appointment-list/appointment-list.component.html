@@ -5,7 +5,7 @@
         <table class="table table-hover caption-top mb-5">
           <caption><h2>Kalendarz wizyt</h2>
             <button class="btn btn-success" type="button" routerLink="/admin/wizyty/dodaj"
-                    (click)="renewVisit()">
+                    (click)="renewAppointment()">
               <i class="fs-5 bi-calendar2-plus"></i> <span class="h5 px-2">Dodaj wizytę</span>
             </button>
           </caption>
@@ -19,7 +19,7 @@
           </thead>
           <tbody>
           <tr *ngFor="
-                      let visit of visits | paginate: {
+                      let visit of appointments | paginate: {
                                               itemsPerPage: pageSize,
                                               currentPage: page,
                                               totalItems: count }">
@@ -31,13 +31,13 @@
                 <button class="btn btn-sm btn-secondary text-white"
                         type="button"
                         title="Sprawdź szczegóły"
-                        (click)="routeToVisitDetails(visit.id)">
+                        (click)="routeToAppointmentDetails(visit.id)">
                   <i class="bi bi-search"></i>
                 </button>
                 <button class="btn btn-danger btn-sm text-white ms-1" mwlConfirmationPopover
                         [popoverMessage]="popoverTitle"
                         placement="left-top"
-                        (confirm)="deleteVisitById(visit.id)"
+                        (confirm)="deleteAppointmentById(visit.id)"
                         (cancel)="cancelClicked=true"
                         confirmText="Usuń"
                         cancelText="Anuluj"

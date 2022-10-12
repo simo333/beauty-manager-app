@@ -14,9 +14,9 @@ import {UserListComponent} from "./admin-components/user-list/user-list.componen
 import {TreatmentsPanelComponent} from "./admin-components/treatments-panel/treatments-panel.component";
 import {TreatmentDetailsComponent} from "./admin-components/treatment-details/treatment-details.component";
 import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
-import {VisitListComponent} from "./admin-components/visit-list/visit-list.component";
-import {VisitAddComponent} from "./admin-components/visit-add/visit-add.component";
-import {ClientAddVisitComponent} from "./client-add-visit/client-add-visit.component";
+import {AppointmentListComponent} from "./admin-components/appointment-list/appointment-list.component";
+import {AppointmentAddComponent} from "./admin-components/appointment-add/appointment-add.component";
+import {ClientAddAppointmentComponent} from "./client-add-appointment/client-add-appointment.component";
 
 const appTitle = 'BeautyManagerApp';
 
@@ -29,8 +29,8 @@ const routes: Routes = [
   {path: 'user', title: `Panel użytkownika - ${appTitle}`, component: BoardUserComponent},
   {
     path: 'admin', title: `Panel admina - ${appTitle}`, component: BoardAdminComponent, children: [
-      {path: 'wizyty', title: `Wiztyty - ${appTitle}`, component: VisitListComponent},
-      {path: 'wizyty/dodaj', title: `Dodaj wizytę - ${appTitle}`, component: VisitAddComponent},
+      {path: 'wizyty', title: `Wiztyty - ${appTitle}`, component: AppointmentListComponent},
+      {path: 'wizyty/dodaj', title: `Dodaj wizytę - ${appTitle}`, component: AppointmentAddComponent},
       {path: 'klienci', title: `Klienci - ${appTitle}`, component: ClientListComponent},
       {path: 'klient/:id', title: `Klient - ${appTitle}`, component: ClientDetailsComponent},
       {path: 'uzytkownicy', title: `Użytkownicy - ${appTitle}`, component: UserListComponent},
@@ -42,7 +42,7 @@ const routes: Routes = [
   {path: 'o-nas', title: `O nas - ${appTitle}`, component: AboutComponent},
   {path: 'zabiegi', title: `Zabiegi - ${appTitle}`, component: TreatmentsComponent},
   {path: 'zabiegi/:id', title: `Zabieg - ${appTitle}`, component: TreatmentInfoComponent},
-  {path: 'zamow-wizyte', title: `Zamów wizytę - ${appTitle}`, component: ClientAddVisitComponent},
+  {path: 'zamow-wizyte', title: `Zamów wizytę - ${appTitle}`, component: ClientAddAppointmentComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 

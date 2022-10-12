@@ -26,16 +26,16 @@ import {TreatmentCategoryService} from "./_services/treatment-category/Treatment
 import {TreatmentService} from "./_services/treatment/treatment.service";
 import {TreatmentDetailsComponent} from './admin-components/treatment-details/treatment-details.component';
 import {TreatmentInfoComponent} from "./treatments/treatment-info/treatment-info.component";
-import {VisitListComponent} from './admin-components/visit-list/visit-list.component';
-import {VisitService} from "./_services/visits/visit.service";
+import {AppointmentListComponent} from './admin-components/appointment-list/appointment-list.component';
+import {AppointmentService} from "./_services/appointments/appointment.service";
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import {VisitAddComponent} from './admin-components/visit-add/visit-add.component';
+import {AppointmentAddComponent} from './admin-components/appointment-add/appointment-add.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {NgxDaterangepickerMd} from "ngx-datepicker-material";
 import {MatInputModule} from "@angular/material/input";
-import {ClientAddVisitComponent} from './client-add-visit/client-add-visit.component';
+import {ClientAddAppointmentComponent} from './client-add-appointment/client-add-appointment.component';
 
 
 @NgModule({
@@ -55,9 +55,9 @@ import {ClientAddVisitComponent} from './client-add-visit/client-add-visit.compo
     TreatmentsPanelComponent,
     TreatmentDetailsComponent,
     TreatmentInfoComponent,
-    VisitListComponent,
-    VisitAddComponent,
-    ClientAddVisitComponent,
+    AppointmentListComponent,
+    AppointmentAddComponent,
+    ClientAddAppointmentComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +78,7 @@ import {ClientAddVisitComponent} from './client-add-visit/client-add-visit.compo
     UserService,
     TreatmentCategoryService,
     TreatmentService,
-    VisitService
+    AppointmentService
   ],
   bootstrap: [AppComponent]
 })

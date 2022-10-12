@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Client} from "../../_services/client/client";
 import {ClientService} from "../../_services/client/client.service";
 import {ActivatedRoute} from "@angular/router";
-import {Visit} from "../../_services/visits/visit";
+import {Appointment} from "../../_services/appointments/appointment";
 import * as moment from "moment/moment";
-import {VisitService} from "../../_services/visits/visit.service";
+import {AppointmentService} from "../../_services/appointments/appointment.service";
 
 @Component({
   selector: 'app-client-details',
@@ -13,7 +13,7 @@ import {VisitService} from "../../_services/visits/visit.service";
 })
 export class ClientDetailsComponent implements OnInit {
   client: Client = new Client();
-  visits: Visit[] = [];
+  appointments: Appointment[] = [];
 
   // Pagination params
   page = 1;
@@ -23,7 +23,7 @@ export class ClientDetailsComponent implements OnInit {
 
   constructor(private clientService: ClientService,
               private activeRoute: ActivatedRoute,
-              private visitService: VisitService) {
+              private appointmentService: AppointmentService) {
   }
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class ClientDetailsComponent implements OnInit {
       if (!isNaN(Number(clientId))) {
         this.clientService.findOne(Number(clientId)).subscribe(data => {
           this.client = data
-          this.getAllVisits();
+          this.getAppointments();
         });
       } else {
         console.log('Not a Number');
@@ -41,11 +41,11 @@ export class ClientDetailsComponent implements OnInit {
     });
   }
 
-  getAllVisits() {
+  getAppointments() {
     const params = this.getRequestParams(this.page, this.pageSize);
-    this.visitService.findAllByClient(this.client.id, params).subscribe(response => {
+    this.appointmentService.findAllByClient(this.client.id, params).subscribe(response => {
       const {content, totalElements} = response;
-      this.visits = content;
+      this.appointments = content;
       this.count = totalElements;
       console.log(response);
     });
@@ -72,13 +72,13 @@ export class ClientDetailsComponent implements OnInit {
 
   handlePageChange(event: number): void {
     this.page = event;
-    this.getAllVisits();
+    this.getAppointments();
   }
 
   handlePageSizeChange(event: any): void {
     this.pageSize = event.target.value;
     this.page = 1;
-    this.getAllVisits();
+    this.getAppointments();
   }
 
 }

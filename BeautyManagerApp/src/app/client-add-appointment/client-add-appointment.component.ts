@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Visit} from "../_services/visits/visit";
+import {Appointment} from "../_services/appointments/appointment";
 import {Treatment} from "../_services/treatment/treatment";
 import {TreatmentCategory} from "../_services/treatment-category/TreatmentCategory";
 import {Client} from "../_services/client/client";
 import {Moment} from "moment";
-import {VisitService} from "../_services/visits/visit.service";
+import {AppointmentService} from "../_services/appointments/appointment.service";
 import {Router} from "@angular/router";
 import {TreatmentService} from "../_services/treatment/treatment.service";
 import {TreatmentCategoryService} from "../_services/treatment-category/TreatmentCategory.service";
@@ -17,11 +17,11 @@ import {UserService} from "../_services/users/user.service";
 
 @Component({
   selector: 'app-client-add-visit',
-  templateUrl: './client-add-visit.component.html',
-  styleUrls: ['./client-add-visit.component.css']
+  templateUrl: './client-add-appointment.component.html',
+  styleUrls: ['./client-add-appointment.component.css']
 })
-export class ClientAddVisitComponent implements OnInit {
-  visit: Visit = new Visit();
+export class ClientAddAppointmentComponent implements OnInit {
+  visit: Appointment = new Appointment();
 
   treatments: Treatment[] = [];
 
@@ -37,7 +37,7 @@ export class ClientAddVisitComponent implements OnInit {
   isLoggedIn = false;
   errorMessage: string = '';
 
-  constructor(private visitService: VisitService, private router: Router,
+  constructor(private visitService: AppointmentService, private router: Router,
               private treatmentService: TreatmentService,
               private categoryService: TreatmentCategoryService,
               private storage: StorageService,
