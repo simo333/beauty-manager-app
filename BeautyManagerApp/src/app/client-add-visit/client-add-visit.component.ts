@@ -71,6 +71,9 @@ export class ClientAddVisitComponent implements OnInit {
       console.log(response);
       this.openModal();
     }, error => {
+      console.log(error);
+      let date = new Date(error.error.message);
+      console.log(date);
       let nextFreeDate = moment(error.error.message).add(2, 'hour');
       console.log(nextFreeDate);
       this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");

@@ -18,7 +18,7 @@ import {VisitListComponent} from "./admin-components/visit-list/visit-list.compo
 import {VisitAddComponent} from "./admin-components/visit-add/visit-add.component";
 import {ClientAddVisitComponent} from "./client-add-visit/client-add-visit.component";
 
-const appTitle = 'Beauty & SPA';
+const appTitle = 'BeautyManagerApp';
 
 const routes: Routes = [
   {path: 'home', title: `${appTitle}`, component: HomeComponent},
