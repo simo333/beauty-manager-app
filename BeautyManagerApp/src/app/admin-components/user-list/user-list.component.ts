@@ -22,7 +22,6 @@ export class UserListComponent implements OnInit {
   //Delete confirmation popover
   popoverTitle = 'Potwierdzenie';
 
-  cancelClicked = false;
   //Close buttons for modals
   @ViewChild("closeCreateModalButton") closeCMButton: any;
   @ViewChild("closeDeleteModalButton") closeDMButton: any;
@@ -67,27 +66,16 @@ export class UserListComponent implements OnInit {
     this.actualUserId = id;
   }
 
-  editUser() {
-    this.userService.edit(this.user).subscribe(response => {
-      console.log(response);
-    })
-    this.closeEMButton.nativeElement.click();
-    this.reload();
-  }
-
   patchUser() {
     this.user.id = this.actualUserId;
-    this.userService.patch(this.user).subscribe(response => {
-      console.log(response);
-      this.closeEMButton.nativeElement.click();
-      this.reload();
-    })
-  }
-
-  deleteUserById(id: number) {
-    this.userService.delete(id).subscribe();
-    this.closeDMButton.nativeElement.click();
-    this.reload();
+    this.userService.patch(this.user).subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error),
+      complete: () => {
+        this.getAllUsers();
+        this.closeEMButton.nativeElement.click();
+      }
+    });
   }
 
   reload() {
