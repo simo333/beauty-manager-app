@@ -48,20 +48,19 @@
       </div>
       <div class="col">
         <div class="card">
-          <div class="card-title bg-dark text-white p-2">
-            <h2>Wizyty</h2>
-          </div>
-          <div class="card-body">
+          <div class="card-body p-0">
             <div class="col">
-              <div class="card-body">
+              <div class="card-body p-1">
                 <div class="e-table">
                   <div class="table-responsive table-lg">
                     <table class="table table-hover caption-top mb-5">
+                      <caption class="card-title bg-dark text-white p-2">
+                        <h2>Wizyty</h2>
+                      </caption>
                       <thead class="table-dark">
                       <tr>
                         <th>Data zabiegu</th>
                         <th>Zabieg</th>
-                        <th>Imię i nazwisko</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -72,7 +71,6 @@
                                               totalItems: count }">
                         <td class="text-nowrap align-middle">{{formatDate(visit.dateTime)}}</td>
                         <td class="text-nowrap align-middle">{{visit.treatment.name}}</td>
-                        <td class="text-nowrap align-middle">{{visit.client.fullName}}</td>
                       </tr>
                       </tbody>
                       <br>
