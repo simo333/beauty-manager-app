@@ -62,12 +62,11 @@ export class AppointmentListComponent implements OnInit {
   }
 
   deleteAppointmentById(id: number) {
-    this.appointmentService.delete(id).subscribe();
-    this.reload();
-  }
-
-  reload() {
-    window.location.reload();
+    this.appointmentService.delete(id).subscribe({
+      next: response => console.log(response),
+      error: () => alert("Nie można usunąć tej wizyty."),
+      complete: () => this.getAppointments()
+    });
   }
 
   formatDate(date: Date) {

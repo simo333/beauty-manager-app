@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Treatment} from "../../_services/treatment/treatment";
 import {TreatmentCategory} from "../../_services/treatment-category/TreatmentCategory";
 import {Appointment} from "../../_services/appointments/appointment";
@@ -13,6 +13,7 @@ import {Duration} from "@js-joda/core";
 import {NgxMaterialTimepickerTheme} from "ngx-material-timepicker";
 import {ClientService} from "../../_services/client/client.service";
 import {Client} from "../../_services/client/client";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-appointment-add',
@@ -40,6 +41,9 @@ export class AppointmentAddComponent implements OnInit {
   selectedTime!: string;
   errorMessage: string = '';
 
+  @ViewChild("f") form!: NgForm;
+  @ViewChild('openModalButton') openModalBtn!: ElementRef;
+
   constructor(private appointmentService: AppointmentService, private router: Router,
               private treatmentService: TreatmentService,
               private categoryService: TreatmentCategoryService,
@@ -62,13 +66,20 @@ export class AppointmentAddComponent implements OnInit {
     let minute = Number(this.selectedTime.substring(3));
     let date = new Date(year, month, day, hour, minute, 0);
     this.appointment.dateTime = date;
-    this.appointmentService.save(this.appointment).subscribe(response => {
-      this.openModal();
-      console.log(response);
-    }, error => {
-      let nextFreeDate = moment(error.error.message).add(2, 'hour');
-      console.log(nextFreeDate);
-      this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+
+    this.appointmentService.save(this.appointment).subscribe({
+      next: response => {
+        this.openModal();
+        console.log(response);
+      },
+      error: error => {
+        if (error.error.message === null) {
+          this.errorMessage = "Brak wolnych terminów o podanej godzinie.";
+        } else {
+          let nextFreeDate = moment(error.error.message);
+          this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+        }
+      }
     });
   }
 
@@ -86,7 +97,7 @@ export class AppointmentAddComponent implements OnInit {
   getTreatmentsByCategory(categoryId: number): void {
     this.treatmentService.findAllByCategory(categoryId).subscribe(response => {
       this.treatments = response;
-      console.log("Treatment service", response);
+      this.appointment.treatment = this.treatments[0];
     });
   }
 
@@ -94,7 +105,6 @@ export class AppointmentAddComponent implements OnInit {
   getCategories(): void {
     this.categoryService.findAll().subscribe(response => {
       this.categories = response;
-      console.log("Category service", response);
     });
   }
 
@@ -102,17 +112,18 @@ export class AppointmentAddComponent implements OnInit {
   getClients(): void {
     this.clientService.findAll().subscribe(response => {
       this.clients = response;
-      console.log("Client service", response);
     });
   }
 
-  reload() {
-    window.location.reload();
+  resetData() {
+    this.errorMessage = '';
+    this.form.resetForm();
   }
 
   categorySelectionChange() {
-    this.getTreatmentsByCategory(this.category.id);
-    console.log("found treatments", this.treatments)
+    if (this.category) {
+      this.getTreatmentsByCategory(this.category.id);
+    }
   }
 
   durationToMinutes(treatment: Treatment) {
@@ -124,8 +135,6 @@ export class AppointmentAddComponent implements OnInit {
     }
     return time.toMinutes();
   }
-
-  @ViewChild('openModalButton') openModalBtn!: any;
 
   openModal() {
     this.openModalBtn.nativeElement.click();

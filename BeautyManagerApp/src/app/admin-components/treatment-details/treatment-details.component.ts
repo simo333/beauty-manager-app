@@ -11,23 +11,40 @@ import {Duration} from "@js-joda/core";
 })
 export class TreatmentDetailsComponent implements OnInit {
   treatment: Treatment = new Treatment();
+  treatmentId!: number;
 
   constructor(private treatmentService: TreatmentService, private activeRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.activeRoute.paramMap.subscribe(params => {
-      let treatmentId = params.get("id");
-      if (!isNaN(Number(treatmentId))) {
-        this.treatmentService.findOne(Number(treatmentId)).subscribe(data => this.treatment = data);
-      } else {
-        console.log('Not a Number');
-      }
+    this.getTreatmentIdFromParams();
+    this.getTreatment();
+  }
+
+  getTreatmentIdFromParams() {
+    this.activeRoute.paramMap.subscribe({
+      next: params => {
+        let treatmentIdString = params.get("id");
+        if (!isNaN(Number(treatmentIdString))) {
+          this.treatmentId = Number(treatmentIdString);
+        } else {
+          console.log('Not a Number'); //TODO throw 404
+        }
+      }, error: error => console.log(error)
     });
   }
 
-  durationToMinutes(treatment: Treatment) {
-    let time = Duration.parse(treatment.duration.toString());
-    return time.toMinutes();
+  getTreatment(): void {
+    this.treatmentService.findOne(this.treatmentId).subscribe(data => {
+      this.treatment = data;
+    });
+  }
+
+  durationToMinutes(treatment: Treatment): number {
+    if (treatment.duration !== undefined) {
+      let time = Duration.parse(treatment.duration.toString());
+      return time.toMinutes();
+    }
+    return 0;
   }
 }

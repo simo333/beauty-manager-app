@@ -147,12 +147,14 @@
           <p class="mb-0 fw-bold">Zabieg</p>
         </div>
         <div class="col-sm-9 text-center">
-          <p class="text-muted mb-0" *ngIf="appointment.treatment">{{appointment.treatment.name}}
-            <span title="Czas trwania zabiegu" class="border p-1 bg-light">
-              <i class="fs-5 bi-clock"></i>
-              {{durationToMinutes(appointment.treatment)}} minut
-            </span>
-          </p>
+          <div class="text-muted mb-0" *ngIf="appointment.treatment">{{appointment.treatment.name}}
+            <p title="Czas trwania zabiegu" class="m-0">
+              <i class="fs-5 bi-clock"></i> {{durationToMinutes(appointment.treatment)}} minut
+            </p>
+            <p title="Koszt zabiegu" class="m-0">
+              <i class="fs-5 bi-cash-coin"></i> {{appointment.treatment.price}} zł
+            </p>
+          </div>
         </div>
       </div>
       <hr>
@@ -179,7 +181,7 @@
 </div>
 
 <button id="openModalButton" [hidden]="true" data-bs-toggle="modal" data-bs-target="#myModal" #openModalButton></button>
-<div id="myModal" class="modal fade" role="dialog" tabindex="-1" (blur)="reload()">
+<div id="myModal" class="modal fade" role="dialog" tabindex="-1" (blur)="resetData()">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
