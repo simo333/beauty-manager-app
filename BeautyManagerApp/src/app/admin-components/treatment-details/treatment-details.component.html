@@ -5,7 +5,7 @@
       <span class="px-3 h6">Powrót do listy</span>
     </button>
   </a>
-  <div class="card-body">
+  <div class="card-body" *ngIf="treatment">
     <div class="row">
       <div class="col">
         <div class="card">
@@ -53,7 +53,7 @@
               <div class="col-sm-3">
                 <p class="mb-0">Kategoria</p>
               </div>
-              <div class="col-sm-9 text-center">
+              <div class="col-sm-9 text-center" *ngIf="treatment.category">
                 <p class="text-muted mb-0">{{treatment.category.name}}</p>
               </div>
             </div>
@@ -64,18 +64,6 @@
           </div>
         </div>
       </div>
-      <!--      <div class="col">-->
-      <!--        <div class="card">-->
-      <!--          <div class="card-title bg-dark text-white p-2">-->
-      <!--            <h2>Coś</h2>-->
-      <!--          </div>-->
-      <!--          <div class="card-body">-->
-      <!--            -->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
-
-
     </div>
   </div>
 </div>

@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {TreatmentCategory} from "../../_services/treatment-category/TreatmentCategory";
 import {TreatmentCategoryService} from "../../_services/treatment-category/TreatmentCategory.service";
 import {TreatmentService} from "../../_services/treatment/treatment.service";
 import {Treatment} from "../../_services/treatment/treatment";
 import {Duration} from "@js-joda/core";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-treatments-panel',
@@ -38,25 +39,23 @@ export class TreatmentsPanelComponent implements OnInit {
 
   // Close buttons for modals
   // For categories
-  @ViewChild("closeCreateModalButton") closeCMButton: any;
-  @ViewChild("closeDeleteModalButton") closeDMButton: any;
-  @ViewChild("closeEditModalButton") closeEMButton!: any;
+  @ViewChild("closeCreateModalButton") closeCMButton!: ElementRef;
+  @ViewChild("closeEditModalButton") closeEMButton!: ElementRef;
+  @ViewChild("formCC") categoryForm!: NgForm;
   // For treatments
-  @ViewChild("closeCMTreatmentButton") closeCMTreatmentButton: any;
-  @ViewChild("closeDMTreatmentButton") closeDMTreatmentButton: any;
-  @ViewChild("closeEMTreatmentButton") closeEMTreatmentButton!: any;
+  @ViewChild("closeCMTreatmentButton") closeCMTreatmentButton!: ElementRef;
+  @ViewChild("closeEMTreatmentButton") closeEMTreatmentButton!: ElementRef;
+  @ViewChild("formCT") treatmentForm!: NgForm;
 
   constructor(private categoryService: TreatmentCategoryService,
               private treatmentService: TreatmentService,
               private router: Router) {
-    this.errorMessage = "";
   }
 
   ngOnInit(): void {
     this.getAllTreatments();
     this.getAllCategoriesInPages();
     this.getAllCategories();
-    this.errorMessage = ""
   }
 
   /* Treatments */
@@ -86,33 +85,39 @@ export class TreatmentsPanelComponent implements OnInit {
   }
 
   renewTreatment() {
+    this.treatmentForm.resetForm();
     this.treatment = new Treatment();
     this.errorMessage = "";
   }
 
   createTreatment() {
-    this.treatmentService.save(this.treatment).subscribe(response => {
-      console.log(response);
-      this.closeCMTreatmentButton.nativeElement.click();
-      this.reload();
-    }, error => {
-      this.errorMessage = error.error.message;
+    this.treatmentService.save(this.treatment).subscribe({
+      next: response => console.log(response),
+      error: () => this.errorMessage = "Ta nazwa jest już zajęta.",
+      complete: () => {
+        this.getAllTreatments();
+        this.closeCMTreatmentButton.nativeElement.click();
+      }
     });
   }
 
   editTreatment() {
-    this.treatmentService.edit(this.treatment).subscribe(response => {
-      console.log(response);
-      this.closeEMTreatmentButton.nativeElement.click();
-      this.reload();
-    }, error => {
-      this.errorMessage = error.error.message;
+    this.treatmentService.edit(this.treatment).subscribe({
+      next: response => console.log(response),
+      error: () => this.errorMessage = "Ta nazwa jest już zajęta.",
+      complete: () => {
+        this.getAllTreatments();
+        this.closeEMTreatmentButton.nativeElement.click();
+      }
     });
   }
 
   deleteTreatmentById(id: number) {
-    this.treatmentService.delete(id).subscribe();
-    this.reload();
+    this.treatmentService.delete(id).subscribe({
+      next: response => console.log(response),
+      error: () => alert("Nie można usunąć tego zabiegu."),
+      complete: () => this.getAllTreatments()
+    });
   }
 
   /* Treatment Categories */
@@ -126,8 +131,7 @@ export class TreatmentsPanelComponent implements OnInit {
       this.categories = content;
       this.countCategory = totalElements;
       console.log(response);
-    })
-    ;
+    });
   }
 
   //Get all categories
@@ -147,42 +151,40 @@ export class TreatmentsPanelComponent implements OnInit {
   }
 
   renewCategory() {
+    this.categoryForm.resetForm();
     this.category = new TreatmentCategory();
     this.errorMessage = "";
   }
 
   createCategory() {
-    this.categoryService.save(this.category).subscribe(response => {
-      console.log("response", response);
-      this.closeCMButton.nativeElement.click();
-      this.reload();
-    }, error => {
-      this.errorMessage = error.error.message;
+    this.categoryService.save(this.category).subscribe({
+      next: response => console.log(response),
+      error: () => this.errorMessage = "Ta nazwa jest już zajęta.",
+      complete: () => {
+        this.getAllCategoriesInPages();
+        this.closeCMButton.nativeElement.click();
+      }
     });
 
   }
 
   editCategory() {
-    this.categoryService.edit(this.category).subscribe(response => {
-      console.log(response);
-      this.closeEMButton.nativeElement.click();
-      this.reload();
-    }, error => {
-      this.errorMessage = error.error.message;
+    this.categoryService.edit(this.category).subscribe({
+      next: response => console.log(response),
+      error: () => this.errorMessage = "Ta nazwa jest już zajęta.",
+      complete: () => {
+        this.getAllCategoriesInPages();
+        this.closeEMButton.nativeElement.click();
+      }
     });
   }
 
   deleteCategoryById(id: number) {
-    this.categoryService.delete(id).subscribe(response => {
-      console.log(response);
-      this.reload();
-    }, () => {
-      alert("Nie można usunąć tej kategorii.");
-    })
-  }
-
-  reload() {
-    window.location.reload();
+    this.categoryService.delete(id).subscribe({
+      next: response => console.log(response),
+      error: () => alert("Nie można usunąć tej kategorii."),
+      complete: () => this.getAllCategoriesInPages()
+    });
   }
 
   // Pagination
