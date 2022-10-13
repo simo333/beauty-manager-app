@@ -16,7 +16,7 @@
             <div class="py-1">
               <form *ngIf="!isLoggedIn"
                     name="form"
-                    (ngSubmit)="f.form.valid && createVisit()"
+                    (ngSubmit)="f.form.valid && createAppointment()"
                     #f="ngForm"
                     novalidate
               >
@@ -28,7 +28,7 @@
                     name="firstName"
                     id="firstName"
                     placeholder="Podaj swoje imię"
-                    [(ngModel)]="visit.client.firstName"
+                    [(ngModel)]="appointment.client.firstName"
                     required
                     minlength="2"
                     maxlength="100"
@@ -51,7 +51,7 @@
                     name="lastName"
                     id="lastName"
                     placeholder="Podaj nazwisko"
-                    [(ngModel)]="visit.client.lastName"
+                    [(ngModel)]="appointment.client.lastName"
                     required
                     minlength="2"
                     maxlength="150"
@@ -76,7 +76,7 @@
                     name="phoneNumber"
                     id="phoneNumber"
                     placeholder="Podaj numer telefonu według schematu: +48111111111"
-                    [(ngModel)]="visit.client.phoneNumber"
+                    [(ngModel)]="appointment.client.phoneNumber"
                     required
                     pattern="^\+\d{11}$"
                     #phoneNumber="ngModel"
@@ -112,7 +112,7 @@
                   <select class="form-select"
                           name="treatment"
                           id="treatment"
-                          [(ngModel)]="visit.treatment"
+                          [(ngModel)]="appointment.treatment"
                           required
                           #treatment="ngModel"
                           [ngClass]="{ 'is-invalid': f.submitted && treatment.errors }">
@@ -123,7 +123,7 @@
                     <div *ngIf="treatment.errors['required']">Kategoria jest wymagana.</div>
                   </div>
                 </div>
-                <div *ngIf="visit.treatment">
+                <div *ngIf="appointment.treatment">
                   <div>
                     <label for="date"> Wybierz dzień wizyty:</label>
                     <input type="text"
@@ -173,7 +173,7 @@
 
               <form *ngIf="isLoggedIn"
                     name="form"
-                    (ngSubmit)="f.form.valid && createVisit()"
+                    (ngSubmit)="f.form.valid && createAppointment()"
                     #f="ngForm"
                     novalidate
               >
@@ -197,7 +197,7 @@
                   <select class="form-select"
                           name="treatment2"
                           id="treatment2"
-                          [(ngModel)]="visit.treatment"
+                          [(ngModel)]="appointment.treatment"
                           required
                           #treatment="ngModel"
                           [ngClass]="{ 'is-invalid': f.submitted && treatment.errors }">
@@ -208,7 +208,7 @@
                     <div *ngIf="treatment.errors['required']">Kategoria jest wymagana.</div>
                   </div>
                 </div>
-                <div *ngIf="visit.treatment">
+                <div *ngIf="appointment.treatment">
                   <div>
                     <label for="date2"> Wybierz dzień wizyty:</label>
                     <input type="text"
@@ -275,7 +275,7 @@
             </div>
             <div class="col-sm-9 text-center">
               <p class="text-muted mb-0">
-                {{visit.client.firstName}} {{visit.client.lastName}}</p>
+                {{appointment.client.firstName}} {{appointment.client.lastName}}</p>
             </div>
           </div>
           <hr>
@@ -293,12 +293,14 @@
               <p class="mb-0 fw-bold">Zabieg</p>
             </div>
             <div class="col-sm-9 text-center">
-              <p class="text-muted mb-0" *ngIf="visit.treatment">{{visit.treatment.name}}
-                <span title="Czas trwania zabiegu" class="border p-1 bg-light">
-              <i class="fs-5 bi-clock"></i>
-                  {{durationToMinutes(visit.treatment)}} minut
-            </span>
-              </p>
+              <div class="text-muted mb-0" *ngIf="appointment.treatment">{{appointment.treatment.name}}
+                <p title="Czas trwania zabiegu" class="m-0">
+                  <i class="fs-5 bi-clock"></i> {{durationToMinutes(appointment.treatment)}} minut
+                </p>
+                <p title="Koszt zabiegu" class="m-0">
+                  <i class="fs-5 bi-cash-coin"></i> {{appointment.treatment.price}} zł
+                </p>
+              </div>
             </div>
           </div>
           <hr>

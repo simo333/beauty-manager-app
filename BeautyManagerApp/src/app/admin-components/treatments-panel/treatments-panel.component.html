@@ -108,6 +108,7 @@
                       minlength="2"
                       maxlength="100"
                       #treatmentName="ngModel"
+                      (ngModelChange)="errorMessage = ''"
                       [ngClass]="{ 'is-invalid': formCT.submitted && treatmentName.errors }"
                     />
                     <label for="treatmentName">Nazwa</label>
@@ -133,10 +134,10 @@
                       [ngClass]="{ 'is-invalid': formCT.submitted && treatmentDescription.errors }"
                     ></textarea>
                     <div *ngIf="treatmentDescription.errors && formCT.submitted" class="invalid-feedback">
-                      <div *ngIf="treatmentDescription.errors['required']">Nazwa jest wymagana.</div>
-                      <div *ngIf="treatmentDescription.errors['minlength']">Nazwa musi zawierać od 2 do 1000 znaków.
+                      <div *ngIf="treatmentDescription.errors['required']">Opis jest wymagany.</div>
+                      <div *ngIf="treatmentDescription.errors['minlength']">Opis musi zawierać od 2 do 1000 znaków.
                       </div>
-                      <div *ngIf="treatmentDescription.errors['maxlength']">Nazwa musi zawierać od 2 do 1000 znaków.
+                      <div *ngIf="treatmentDescription.errors['maxlength']">Opis musi zawierać od 2 do 1000 znaków.
                       </div>
                     </div>
                   </div>
@@ -237,6 +238,7 @@
                       minlength="2"
                       maxlength="100"
                       #editTreatmentName="ngModel"
+                      (ngModelChange)="errorMessage = ''"
                       [ngClass]="{ 'is-invalid': formET.submitted && editTreatmentName.errors }"
                     />
                     <label for="editTreatmentName">Nazwa</label>
@@ -336,7 +338,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
 
@@ -436,6 +437,7 @@
                       minlength="3"
                       maxlength="100"
                       #name="ngModel"
+                      (ngModelChange)="errorMessage = ''"
                       [ngClass]="{ 'is-invalid': formCC.submitted && name.errors }"
                     />
                     <label for="name">Nazwa</label>
@@ -490,6 +492,7 @@
                       minlength="3"
                       maxlength="100"
                       #name="ngModel"
+                      (ngModelChange)="errorMessage = ''"
                       [ngClass]="{ 'is-invalid': formEC.submitted && name.errors }"
                     />
                     <label for="editName">Podaj nazwę</label>

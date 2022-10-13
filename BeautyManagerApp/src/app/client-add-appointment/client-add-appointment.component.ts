@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Appointment} from "../_services/appointments/appointment";
 import {Treatment} from "../_services/treatment/treatment";
 import {TreatmentCategory} from "../_services/treatment-category/TreatmentCategory";
@@ -16,12 +16,12 @@ import {ClientService} from "../_services/client/client.service";
 import {UserService} from "../_services/users/user.service";
 
 @Component({
-  selector: 'app-client-add-visit',
+  selector: 'app-client-add-appointment',
   templateUrl: './client-add-appointment.component.html',
   styleUrls: ['./client-add-appointment.component.css']
 })
 export class ClientAddAppointmentComponent implements OnInit {
-  visit: Appointment = new Appointment();
+  appointment: Appointment = new Appointment();
 
   treatments: Treatment[] = [];
 
@@ -37,7 +37,9 @@ export class ClientAddAppointmentComponent implements OnInit {
   isLoggedIn = false;
   errorMessage: string = '';
 
-  constructor(private visitService: AppointmentService, private router: Router,
+  @ViewChild('openModalButton') openModalBtn!: ElementRef;
+
+  constructor(private appointmentService: AppointmentService, private router: Router,
               private treatmentService: TreatmentService,
               private categoryService: TreatmentCategoryService,
               private storage: StorageService,
@@ -50,28 +52,32 @@ export class ClientAddAppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this.visit.client = new Client();
+    this.appointment.client = new Client();
     this.isLoggedIn = this.storage.isLoggedIn();
     this.setClientIfLoggedIn();
   }
 
-  createVisit() {
+  createAppointment() {
     let year = this.selectedDate.startDate.year();
     let month = this.selectedDate.startDate.month();
     let day = this.selectedDate.startDate.date();
     let hour = Number(this.selectedTime.substring(0, 2));
     let minute = Number(this.selectedTime.substring(3));
     let date = new Date(year, month, day, hour, minute, 0);
-    this.visit.dateTime = date;
-    this.visitService.save(this.visit).subscribe(response => {
-      console.log("visit service", response);
-      this.openModal();
-    }, error => {
-      if (error.error.message === null) {
-        this.errorMessage = "Brak wolnych terminów o podanej godzinie.";
-      } else {
-        let nextFreeDate = moment(error.error.message);
-        this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+    this.appointment.dateTime = date;
+
+    this.appointmentService.save(this.appointment).subscribe({
+      next: response => {
+        this.openModal();
+        console.log(response);
+      },
+      error: error => {
+        if (error.error.message === null) {
+          this.errorMessage = "Brak wolnych terminów o podanej godzinie.";
+        } else {
+          let nextFreeDate = moment(error.error.message);
+          this.errorMessage = "Termin zajęty. Następny wolny termin: " + nextFreeDate.format("LLLL");
+        }
       }
     });
   }
@@ -80,7 +86,7 @@ export class ClientAddAppointmentComponent implements OnInit {
     if (this.isLoggedIn) {
       this.userService.findOneByEmail(this.storage.getUser().email).subscribe(response => {
         let loggedUser = response;
-        this.visit.client = loggedUser.client;
+        this.appointment.client = loggedUser.client;
       })
     }
   }
@@ -89,7 +95,7 @@ export class ClientAddAppointmentComponent implements OnInit {
   getTreatmentsByCategory(categoryId: number): void {
     this.treatmentService.findAllByCategory(categoryId).subscribe(response => {
       this.treatments = response;
-      console.log("Treatment service", response);
+      this.appointment.treatment = this.treatments[0];
     });
   }
 
@@ -97,17 +103,13 @@ export class ClientAddAppointmentComponent implements OnInit {
   getCategories(): void {
     this.categoryService.findAll().subscribe(response => {
       this.categories = response;
-      console.log("Category service", response);
     });
-  }
-
-  reload() {
-    window.location.reload();
   }
 
   categorySelectionChange() {
     this.getTreatmentsByCategory(this.category.id);
   }
+
 
   durationToMinutes(treatment: Treatment) {
     let time;
@@ -120,12 +122,10 @@ export class ClientAddAppointmentComponent implements OnInit {
   }
 
   invalidDates: Moment[] = []
-  // isInvalidDate = (m: moment.Moment): boolean => {
-  // this.invalidDates.push(moment().add(3, 'days'))
-  // return this.invalidDates.some((d) => d.isSame(m.weekday()));
-  // };
-
-  @ViewChild('openModalButton') openModalBtn!: any;
+  isInvalidDate = (m: moment.Moment): boolean => {
+    // this.invalidDates.push(moment().add(3, 'days'))
+    return this.invalidDates.some((d) => d.isSame(m.weekday()));
+  };
 
   openModal() {
     this.openModalBtn.nativeElement.click();

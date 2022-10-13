@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div class="e-panel card">
+<div class="e-panel card" *ngIf="isUser">
   <a routerLink="/home">
     <button class="btn btn-outline-secondary m-2">
       <i class="fs-6 bi-arrow-left-square-fill"></i>
@@ -59,15 +59,15 @@
         </div>
       </div>
       <div class="col">
-        <div class="card-body">
+        <div class="card-body p-0">
           <div class="e-table">
             <div class="table-responsive table-lg">
               <table class="table table-hover caption-top mb-5">
                 <caption>
-                  <h3 class="card-title bg-dark text-white p-2 text-center">Historia Twoich wizyt</h3>
-                  <button class="btn btn-success btn-sm" type="button" routerLink="/zamow-wizyte">
-                    <i class="fs-5 bi-calendar2-plus"></i> <span class="h5 px-2">Dodaj wizytę</span>
+                  <button class="btn btn-success btn-sm mb-2" type="button" routerLink="/zamow-wizyte">
+                    <i class="fs-5 bi-calendar2-plus"></i> <span class="h5 px-2">Zamów wizytę</span>
                   </button>
+                  <h3 class="card-title bg-dark text-white p-2 text-center">Historia Twoich wizyt</h3>
                 </caption>
                 <thead class="table-dark">
                 <tr>
