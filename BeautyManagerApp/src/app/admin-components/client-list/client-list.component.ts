@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Client} from "../../_services/client/client";
 import {ClientService} from "../../_services/client/client.service";
 import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 
 @Component({
@@ -24,9 +25,9 @@ export class ClientListComponent implements OnInit {
   cancelClicked = false;
 
   //Close buttons for modals
-  @ViewChild("closeCreateModalButton") closeCMButton: any;
-  @ViewChild("closeDeleteModalButton") closeDMButton: any;
-  @ViewChild("closeEditModalButton") closeEMButton: any;
+  @ViewChild("closeCreateModalButton") closeCMButton!: ElementRef;
+  @ViewChild("closeEditModalButton") closeEMButton!: ElementRef
+  @ViewChild("f") form!: NgForm;
 
 
   constructor(private clientService: ClientService, private router: Router) {
@@ -40,11 +41,13 @@ export class ClientListComponent implements OnInit {
   getAllClients(): void {
     const params = this.getRequestParams(this.page, this.pageSize);
 
-    this.clientService.findAllPages(params).subscribe(response => {
-      const {content, totalElements} = response;
-      this.clients = content;
-      this.count = totalElements;
-      console.log(response);
+    this.clientService.findAllPages(params).subscribe({
+      next: response => {
+        const {content, totalElements} = response;
+        this.clients = content;
+        this.count = totalElements;
+        console.log(response);
+      }, error: error => console.log(error)
     });
   }
 
@@ -52,12 +55,12 @@ export class ClientListComponent implements OnInit {
     this.router.navigate(["/admin/klient", id]);
   }
 
-  getClient(id: number): Client {
-    this.clientService.findOne(id).subscribe(response => {
-      this.client = response;
-      console.log("Actual client ", this.client.fullName);
+  getClient(id: number): void {
+    this.clientService.findOne(id).subscribe({
+      next: response => this.client = response,
+      error: error => console.log(error),
+      complete: () => console.log("Actual client ", this.client.fullName)
     });
-    return this.client;
   }
 
   renewClient() {
@@ -65,32 +68,34 @@ export class ClientListComponent implements OnInit {
   }
 
   createClient() {
-    this.clientService.save(this.client).subscribe(response => {
-      console.log(response);
+    this.clientService.save(this.client).subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error),
+      complete: () => {
+        this.getAllClients();
+        this.form.resetForm();
+        this.closeCMButton.nativeElement.click();
+      }
     });
-    this.closeCMButton.nativeElement.click();
-    this.reload();
   }
 
   editClient() {
-    this.clientService.edit(this.client).subscribe(response => {
-      console.log(response);
-    })
-    this.closeEMButton.nativeElement.click();
-    this.reload();
-  }
-
-  deleteClientById(id: number) {
-    this.clientService.delete(id).subscribe(response => {
-      console.log(response);
-      this.reload();
-    }, () => {
-      alert("Nie można usunąć tego klienta.");
+    this.clientService.edit(this.client).subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error),
+      complete: () => {
+        this.getAllClients();
+        this.closeEMButton.nativeElement.click();
+      }
     });
   }
 
-  reload() {
-    window.location.reload();
+  deleteClientById(id: number) {
+    this.clientService.delete(id).subscribe({
+      next: response => console.log(response),
+      error: () => alert("Nie można usunąć tego klienta."),
+      complete: () => this.getAllClients()
+    });
   }
 
   //Pagination

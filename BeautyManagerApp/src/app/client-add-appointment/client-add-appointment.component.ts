@@ -120,10 +120,10 @@ export class ClientAddAppointmentComponent implements OnInit {
   }
 
   invalidDates: Moment[] = []
-  // isInvalidDate = (m: moment.Moment): boolean => {
-  // this.invalidDates.push(moment().add(3, 'days'))
-  // return this.invalidDates.some((d) => d.isSame(m.weekday()));
-  // };
+  isInvalidDate = (m: moment.Moment): boolean => {
+    // this.invalidDates.push(moment().add(3, 'days'))
+    return this.invalidDates.some((d) => d.isSame(m.weekday()));
+  };
 
   @ViewChild('openModalButton') openModalBtn!: any;
 
